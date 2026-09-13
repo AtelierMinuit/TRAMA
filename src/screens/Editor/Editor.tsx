@@ -1,3 +1,5 @@
+import { useDocumentContext } from "../../context/DocumentContext";
+import { toSchemaTexDsl } from "../../adapters/schematex";
 import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject, type CSSProperties } from "react";
 import { SchematexDiagram } from "schematex/react";
 import type { ViewportController } from "schematex/interactive";
@@ -29,41 +31,16 @@ import type {
 
 // ─── Editor ──────────────────────────────────────────────────────────────────
 
-export 
-function Editor({
+export function Editor({
   language,
   effectiveDark,
-  document,
-  categories,
-  allCategories,
-  templates,
-  selection,
-  selectedSystem,
-  selectedConnection,
-  projectionDsl,
-  saveState,
-  past,
-  future,
-  search,
-  setSearch,
-  onSelect,
-  onAddSystem,
   onConnect,
-  onUpdateTitle,
-  onUpdateCenter,
-  onUpdateSystem,
-  onUpdateConnection,
-  onDuplicate,
-  onDelete,
-  onUndo,
-  onRedo,
-  onSave,
-  onSaveAs,
   onExport,
   onClose,
   onSnapshots,
   onCompare,
-  onOrganize,
+  onSave,
+  onSaveAs,
   viewportRef,
   onSettings,
   onLanguage,
@@ -71,42 +48,47 @@ function Editor({
 }: {
   language: Language;
   effectiveDark: boolean;
-  document: Ecomap;
-  categories: Category[];
-  allCategories: Category[];
-  templates: Template[];
-  selection: Selection;
-  selectedSystem: SystemNode | null;
-  selectedConnection: Connection | null;
-  projectionDsl: string;
-  saveState: SaveState;
-  past: Ecomap[];
-  future: Ecomap[];
-  search: string;
-  setSearch: (value: string) => void;
-  onSelect: (selection: Selection) => void;
-  onAddSystem: (category: Category) => void;
   onConnect: () => void;
-  onUpdateTitle: (title: string) => void;
-  onUpdateCenter: (patch: Partial<Ecomap["center"]>) => void;
-  onUpdateSystem: (patch: Partial<SystemNode>) => void;
-  onUpdateConnection: (patch: Partial<Connection>) => void;
-  onDuplicate: () => void;
-  onDelete: () => void;
-  onUndo: () => void;
-  onRedo: () => void;
-  onSave: () => void;
-  onSaveAs: () => void;
   onExport: () => void;
   onClose: () => void;
   onSnapshots: () => void;
   onCompare: () => void;
-  onOrganize: () => void;
-  viewportRef: MutableRefObject<ViewportController | null>;
+  onSave: () => void;
+  onSaveAs: () => void;
+  viewportRef: MutableRefObject<any>;
   onSettings: () => void;
   onLanguage: () => void;
   onTheme: () => void;
-}): ReactNode {
+}) {
+  const {
+    document, past, future, selection, setSelection: onSelect,
+    search, setSearch,
+    undo: onUndo, redo: onRedo,
+    updateCenter: onUpdateCenter, updateSystem, updateConnection,
+    addSystem: onAddSystem, deleteSelected, duplicateSelected: onDuplicate,
+    autoOrganize: onOrganize, saveState, repoState, commitDocument
+  } = useDocumentContext();
+
+  const onUpdateSystem = (patch: Partial<SystemNode>) => {
+    if (selectedSystem) updateSystem(selectedSystem.id, patch);
+  };
+  const onUpdateConnection = (patch: Partial<Connection>) => {
+    if (selectedConnection) updateConnection(selectedConnection.id, patch);
+  };
+  const onDelete = () => void deleteSelected(async (q) => window.confirm(q), t(language, "deleteConfirm"));
+  const onUpdateTitle = (title: string) => { commitDocument((current) => ({ ...current, title })); };
+
+  if (!document || !repoState) return null;
+
+  const allCategories = repoState.categories;
+  const templates = repoState.templates;
+  const categories = allCategories.filter((c) => !c.hidden).sort((a, b) => a.orderIndex - b.orderIndex);
+  
+  const selectedSystem = selection?.kind === "system" ? document.systems.find((s) => s.id === selection.id) ?? null : null;
+  const selectedConnection = selection?.kind === "connection" ? document.connections.find((c) => c.id === selection.id) ?? null : null;
+  
+  const projectionDsl = useMemo(() => toSchemaTexDsl(document, allCategories), [document, allCategories]);
+
   const [showAllSystems, setShowAllSystems] = useState(false);
   const [panelTab, setPanelTab] = useState<"systems" | "templates">("systems");
   const filteredSystems = document.systems.filter((s) =>

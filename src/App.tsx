@@ -22,30 +22,22 @@ import { SettingsScreen } from "./screens/SettingsScreen";
 import { Editor } from "./screens/Editor/Editor";
 import { NewDocumentModal, ConnectionModal, ExportModal, SnapshotsModal, CompareModal } from "./modals/Modals";
 import { toSchemaTexDsl } from "./adapters/schematex";
+import { useDocumentContext } from "./context/DocumentContext";
 import {
   Category,
   CenterRepresentation,
-  Connection,
   Ecomap,
   EnergyFlow,
-  ExtendedRelationshipType,
-  Provenance,
   RelationshipType,
   Snapshot,
-  SourceType,
-  StandardRelationshipType,
-  SystemNode,
   Template,
-  VerificationStatus,
   createConnection,
   createEmptyDocument,
   createId,
-  createSystemNode,
   cloneState,
   nowIso,
-  withUpdatedTimestamp,
-} from "./domain/model";
-import type { RepositoryState } from "./domain/model";
+  } from "./domain/model";
+import type { } from "./domain/model";
 import { LocalRepository } from "./infrastructure/repository";
 import { deserializePortable, serializePortable } from "./infrastructure/portable";
 import { exportEcomap, type ExportFormat } from "./infrastructure/exporter";
@@ -54,11 +46,7 @@ import { compareStates, type EcomapDiff } from "./domain/compare";
 import { t, type Language } from "./i18n";
 
 import { 
-  Screen, ThemeMode, SaveState, Modal, Selection, 
-  STANDARD_RELATIONSHIP_OPTIONS, EXTENDED_RELATIONSHIP_OPTIONS, 
-  FLOW_OPTIONS, SOURCE_OPTIONS, VERIFICATION_OPTIONS,
-  IconButton, FormField, sourceLabel, relationshipLabel, flowLabel
-} from "./shared";
+  Screen, ThemeMode, Modal, } from "./shared";
 
 const repository = new LocalRepository();
 
@@ -195,14 +183,16 @@ export function AppContent() {
   const {
     repoState, setRepoState,
     document, setDocument,
-    past, future,
+    
     dirty, setDirty,
-    saveState, setSaveState,
+    
     selection, setSelection,
-    search, setSearch,
+    
     undo, redo, commitDocument,
     resetHistory, loading, error,
-    deleteSelected, duplicateSelected, autoOrganize,
+    deleteSelected, 
+    setPast, setFuture, saveState, setSaveState, autoOrganize,
+    
   } = useDocumentContext();
 
   const [modal, setModal] = useState<Modal>(null);
@@ -224,23 +214,13 @@ export function AppContent() {
   const [compareA, setCompareA] = useState("");
   const [compareB, setCompareB] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const viewportRef = useRef<ViewportController | null>(null);
+  const viewportRef = useRef<any>(null);
   const modalTriggerRef = useRef<HTMLElement | null>(null);
 
   const effectiveDark = themeMode === "dark" || (themeMode === "system" && systemDark);
-  const activeCategories = useMemo(
-    () =>
-      (repoState?.categories ?? [])
-        .filter((c) => !c.hidden)
-        .sort((a, b) => a.orderIndex - b.orderIndex),
-    [repoState?.categories],
-  );
-  const selectedSystem = document && selection?.kind === "system"
-    ? document.systems.find((s) => s.id === selection.id) ?? null
-    : null;
-  const selectedConnection = document && selection?.kind === "connection"
-    ? document.connections.find((c) => c.id === selection.id) ?? null
-    : null;
+  
+  
+  
   const snapshots = useMemo(
     () =>
       (repoState?.snapshots ?? [])
@@ -253,10 +233,7 @@ export function AppContent() {
     const right = snapshots.find((s) => s.id === compareB);
     return left && right ? compareStates(left.state, right.state) : null;
   }, [snapshots, compareA, compareB]);
-  const projectionDsl = useMemo(
-    () => document && repoState ? toSchemaTexDsl(document, repoState.categories) : "",
-    [document, repoState],
-  );
+  
 
   // ── Effects ──
 
@@ -353,10 +330,7 @@ export function AppContent() {
     }
   }, [document]);
 
-  const updateTitle = useCallback(
-    (title: string) => { commitDocument((current) => ({ ...current, title })); },
-    [commitDocument],
-  );
+  
 
   const handleExport = useCallback(async () => {
     if (!document || !repoState) return;
@@ -524,9 +498,9 @@ export function AppContent() {
       };
       await repository.saveSnapshot(automatic);
       const state = clone(snapshot.state);
-      setPast((items) => [...items, clone(document)].slice(-60));
+      setPast((items: Ecomap[]) => [...items, clone(document)].slice(-60));
       setFuture([]);
-      setDocument((current) => current ? { ...current, ...state, updatedAt: nowIso() } : current);
+      commitDocument((current) => ({ ...current, ...state, updatedAt: nowIso() }));
       setRepoState((current) =>
         current ? { ...current, snapshots: [automatic, ...current.snapshots] } : current,
       );
@@ -653,13 +627,11 @@ export function AppContent() {
         event.preventDefault(); viewportRef.current?.zoomIn(); return;
       }
       if (command && event.key === "-") { event.preventDefault(); viewportRef.current?.zoomOut(); return; }
-      if (command && event.key === "0") { event.preventDefault(); viewportRef.current?.fit(); return; }
-    );
-  }, [autoOrganize, language]);
-
-  const handleDeleteSelected = useCallback(async () => {
-    await deleteSelected(askConfirmation, t(language, "deleteConfirm"));
-  }, [deleteSelected, language]);
+      if (event.key === "Delete" && !editingText) { event.preventDefault(); void handleDeleteSelected(); return; }
+      if (event.key === "Escape") {
+        setModal(null);
+        setSelection(null);
+        if (modalTriggerRef.current) {
           modalTriggerRef.current.focus();
           modalTriggerRef.current = null;
         }
@@ -667,7 +639,7 @@ export function AppContent() {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [deleteSelected, handleOpen, redo, saveCurrent, savePortableAs, undo]);
+  }, [handleDeleteSelected, handleOpen, redo, saveCurrent, savePortableAs, undo]);
 
   // ── Tauri menu events ──
 
@@ -759,37 +731,13 @@ export function AppContent() {
         <Editor
           language={language}
           effectiveDark={effectiveDark}
-          document={document}
-          categories={activeCategories}
-          allCategories={repoState.categories}
-          templates={repoState.templates}
-          selection={selection}
-          selectedSystem={selectedSystem}
-          selectedConnection={selectedConnection}
-          projectionDsl={projectionDsl}
-          saveState={saveState}
-          past={past}
-          future={future}
-          search={search}
-          setSearch={setSearch}
-          onSelect={setSelection}
-          onAddSystem={addSystem}
           onConnect={openConnectionModal}
-          onUpdateTitle={updateTitle}
-          onUpdateCenter={updateCenter}
-          onUpdateSystem={updateSystem}
-          onUpdateConnection={updateConnection}
-          onDuplicate={duplicateSelected}
-          onDelete={() => void deleteSelected()}
-          onUndo={undo}
-          onRedo={redo}
           onSave={() => void saveCurrent()}
           onSaveAs={() => void savePortableAs()}
           onExport={() => { modalTriggerRef.current = globalThis.document.activeElement as HTMLElement; setModal("export"); }}
           onClose={() => void closeEditor()}
           onSnapshots={() => { modalTriggerRef.current = globalThis.document.activeElement as HTMLElement; setModal("snapshots"); }}
           onCompare={() => { modalTriggerRef.current = globalThis.document.activeElement as HTMLElement; setModal("compare"); }}
-          onOrganize={autoOrganize}
           viewportRef={viewportRef}
           onSettings={() => setScreen("settings")}
           onLanguage={() => setLanguage((l) => l === "es" ? "en" : "es")}

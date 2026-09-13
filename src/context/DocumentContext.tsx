@@ -11,6 +11,8 @@ export interface DocumentContextType {
   setRepoState: React.Dispatch<React.SetStateAction<RepositoryState | null>>;
   document: Ecomap | null;
   setDocument: (doc: Ecomap | null) => void;
+  setPast: React.Dispatch<React.SetStateAction<Ecomap[]>>;
+  setFuture: React.Dispatch<React.SetStateAction<Ecomap[]>>;
   past: Ecomap[];
   future: Ecomap[];
   dirty: boolean;
@@ -49,7 +51,9 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
   const {
     document,
     past,
+    setPast,
     future,
+    setFuture,
     dirty,
     setDirty,
     commitDocument,
@@ -164,7 +168,9 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
     document,
     setDocument,
     past,
+    setPast,
     future,
+    setFuture,
     dirty,
     setDirty,
     saveState,
@@ -185,7 +191,7 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
     duplicateSelected,
     autoOrganize,
     loading,
-    error,
+    error
   };
 
   return <DocumentContext.Provider value={value}>{children}</DocumentContext.Provider>;

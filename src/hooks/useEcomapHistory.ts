@@ -96,5 +96,7 @@ export function useEcomapHistory() {
     updateSystem,
     updateConnection,
     setDocument,
+    setPast,
+    setFuture,
   };
 }
