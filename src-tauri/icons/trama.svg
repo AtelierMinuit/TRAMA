@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">TRAMA</title>
+  <desc id="desc">Tres nodos vinculados alrededor de un centro</desc>
+  <rect width="256" height="256" rx="58" fill="#173f3b"/>
+  <path d="M128 128 62 67M128 128l78-45M128 128l8 84" fill="none" stroke="#a9d7ca" stroke-width="13" stroke-linecap="round"/>
+  <path d="M62 67 206 83" fill="none" stroke="#d08b6d" stroke-width="8" stroke-linecap="round" stroke-dasharray="13 13"/>
+  <circle cx="128" cy="128" r="35" fill="#f4f1ea" stroke="#a9d7ca" stroke-width="10"/>
+  <circle cx="62" cy="67" r="20" fill="#d08b6d" stroke="#f4f1ea" stroke-width="8"/>
+  <circle cx="206" cy="83" r="20" fill="#a9d7ca" stroke="#173f3b" stroke-width="8"/>
+  <circle cx="136" cy="212" r="20" fill="#d8b36b" stroke="#173f3b" stroke-width="8"/>
+</svg>
