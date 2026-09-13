@@ -9,7 +9,7 @@ import {
   STANDARD_RELATIONSHIP_OPTIONS, EXTENDED_RELATIONSHIP_OPTIONS, 
   FLOW_OPTIONS, VERIFICATION_OPTIONS, SOURCE_OPTIONS,
   sourceLabel, relationshipLabel, flowLabel,
-  type Selection, type SaveState, getTemplateIcon
+  type Selection, type SaveState, getTemplateIcon, getCategoryIconName
 } from "../../shared";
 import { t } from "../../i18n";
 import type { Language } from "../../i18n";
@@ -169,7 +169,7 @@ export function Editor({
                       className="category-icon"
                       style={{ "--category-accent": category.accent } as CSSProperties}
                     >
-                      {category.icon}
+                      <Icon name={getCategoryIconName(category.key)} size={14} />
                     </span>
                     <span>{category.label}</span>
                     <Icon name="add" size={13} />
@@ -197,7 +197,7 @@ export function Editor({
                         className="node-dot"
                         style={{ "--category-accent": category?.accent ?? "#75807b" } as CSSProperties}
                       >
-                        {category?.icon ?? "•"}
+                        <Icon name={getCategoryIconName(category?.key ?? "")} size={13} />
                       </span>
                       <span>
                         <strong>{system.label}</strong>
@@ -270,26 +270,6 @@ export function Editor({
               onError={() => undefined}
             />
           </div>
-          <div className="canvas-bottomline">
-            <div className="canvas-controls">
-              <IconButton
-                icon="zoom-out"
-                label={language === "es" ? "Alejar" : "Zoom out"}
-                onClick={() => viewportRef.current?.zoomOut()}
-              />
-              <button className="fit-button" onClick={() => viewportRef.current?.fit()}>
-                {language === "es" ? "Ajustar" : "Fit"}
-              </button>
-              <IconButton
-                icon="zoom-in"
-                label={language === "es" ? "Acercar" : "Zoom in"}
-                onClick={() => viewportRef.current?.zoomIn()}
-              />
-            </div>
-            <span className="legend-toggle">
-              {language === "es" ? "Leyenda en exportación" : "Legend on export"}
-            </span>
-          </div>
         </main>
 
         {/* Right panel — Inspector */}
@@ -314,7 +294,7 @@ export function Editor({
         {/* Floating Header (Title & Status) */}
         <div className="floating-header">
           <div className="editor-brand">
-            <div className="brand-mark small"><Icon name="trama" size={20} /></div>
+            <div className="brand-mark small"><Icon name="trama" size={18} /></div>
             <button className="brand-wordmark" onClick={onClose}>TRAMA</button>
           </div>
           <div className="toolbar-divider" style={{ height: 16 }} />
@@ -334,8 +314,8 @@ export function Editor({
 
         {/* Floating Toolbar (Tools) */}
         <div className="floating-toolbar">
-          <button className="toolbar-button primary-connect" onClick={onConnect} disabled={document.systems.length === 0} style={{ borderRadius: 20, padding: '6px 12px' }}>
-            <Icon name="link" size={16} /> {t(language, "connect")}
+          <button className="toolbar-button primary-connect" onClick={onConnect} disabled={document.systems.length === 0}>
+            <Icon name="link" size={15} /> {t(language, "connect")}
           </button>
           <div className="toolbar-divider" />
           <IconButton icon="back" label="Deshacer" onClick={onUndo} disabled={past.length === 0} />
@@ -344,8 +324,14 @@ export function Editor({
           <IconButton icon="grid" label="Organizar" onClick={onOrganize} />
           <IconButton icon="history" label="Historial" onClick={onSnapshots} />
           <div className="toolbar-divider" />
-          <button className="toolbar-button" onClick={onSave} style={{ borderRadius: 20, padding: '6px 12px', background: 'var(--accent-soft)', color: 'var(--accent-strong)' }}>
-            <Icon name="save" size={16} /> Guardar
+          <IconButton icon="zoom-out" label="Alejar" onClick={() => viewportRef.current?.zoomOut()} />
+          <button className="toolbar-button" onClick={() => viewportRef.current?.fit()} style={{ fontSize: 11, fontWeight: 700, padding: '4px 8px' }}>
+            FIT
+          </button>
+          <IconButton icon="zoom-in" label="Acercar" onClick={() => viewportRef.current?.zoomIn()} />
+          <div className="toolbar-divider" />
+          <button className="primary-button" onClick={onSave} style={{ borderRadius: 20, padding: '6px 14px', fontSize: 12 }}>
+            <Icon name="save" size={15} /> Guardar
           </button>
           <IconButton icon="more" label="Opciones" onClick={onSaveAs} />
         </div>

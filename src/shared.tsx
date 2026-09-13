@@ -144,3 +144,41 @@ export function getTemplateIcon(name: string): IconName {
   }
   return "file-text";
 }
+
+export function getCategoryIconName(keyOrCategory: string): IconName {
+  switch (keyOrCategory) {
+    case "family":
+    case "extended_family":
+      return "home";
+    case "friends_peers":
+    case "friends":
+      return "users";
+    case "work":
+      return "briefcase";
+    case "education":
+      return "education";
+    case "health":
+    case "care":
+      return "heart";
+    case "mental_health":
+    case "mental-health":
+      return "mental-health";
+    case "finance":
+    case "financial":
+      return "finance";
+    case "transport":
+      return "transport";
+    case "legal":
+    case "justice":
+      return "legal";
+    case "recreation":
+      return "recreation";
+    case "community":
+    case "organizations":
+      return "community";
+    case "religion":
+      return "religion";
+    default:
+      return "file";
+  }
+}
