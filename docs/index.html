@@ -1,50 +1,135 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRAMA - Creador de Ecomapas Profesionales</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; color: #333; }
-        header { background: #2c3e50; color: #fff; padding: 3rem 1rem; text-align: center; }
-        header h1 { margin: 0; font-size: 2.5rem; }
-        header p { font-size: 1.2rem; opacity: 0.9; margin-top: 1rem; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1rem; }
-        .features { display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 2rem; }
-        .feature { flex: 1; min-width: 250px; padding: 1.5rem; background: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .feature h3 { margin-top: 0; color: #2c3e50; }
-        .btn { display: inline-block; background: #3498db; color: #fff; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 4px; font-weight: bold; margin-top: 1.5rem; }
-        .btn:hover { background: #2980b9; }
-        footer { text-align: center; padding: 2rem; background: #ecf0f1; margin-top: 2rem; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRAMA — Ecomapas profesionales para Trabajo Social</title>
+  <meta name="description" content="App de escritorio open-source y local-first para ecomapas en Trabajo Social y práctica comunitaria.">
+  <style>
+    :root {
+      --bg: #0f2b28;
+      --bg-soft: #173f3b;
+      --surface: #f4f1ea;
+      --ink: #1a2421;
+      --muted: #5d6b66;
+      --accent: #a9d7ca;
+      --accent-2: #d08b6d;
+      --line: #d7ded8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Avenir Next", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6; margin: 0; color: var(--ink); background: var(--surface);
+    }
+    .hero {
+      background: linear-gradient(135deg, var(--bg) 0%, var(--bg-soft) 100%);
+      color: var(--surface); padding: 5rem 1.5rem 4rem; text-align: center;
+    }
+    .hero img.banner { max-width: 100%; width: 960px; border-radius: 12px; }
+    .hero h1 { margin: 1.5rem 0 0; font-size: 3rem; letter-spacing: 1px; }
+    .hero .tagline { font-size: 1.25rem; color: var(--accent); margin-top: 0.5rem; }
+    .hero .pillars { margin-top: 1.25rem; color: #7a9a93; font-size: 0.95rem; letter-spacing: 0.5px; }
+    .cta { margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; padding: 0.7rem 1.5rem; border-radius: 8px; font-weight: 600;
+      text-decoration: none; border: 1px solid transparent;
+    }
+    .btn-primary { background: var(--accent); color: var(--bg); }
+    .btn-secondary { background: transparent; color: var(--surface); border-color: #3a5a55; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 3rem 1.5rem; }
+    section { margin-bottom: 3.5rem; }
+    h2 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+    .lead { color: var(--muted); font-size: 1.1rem; max-width: 720px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+    .card { padding: 1.5rem; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
+    .card h3 { margin-top: 0; font-size: 1.1rem; }
+    .card p { color: var(--muted); margin-bottom: 0; font-size: 0.95rem; }
+    .shots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 2rem; }
+    .shots figure { margin: 0; }
+    .shots img { width: 100%; border-radius: 8px; border: 1px solid var(--line); display: block; }
+    .shots figcaption { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 0.4rem; }
+    .privacy { background: #fff; border-left: 3px solid var(--accent-2); padding: 1.25rem 1.5rem; border-radius: 6px; }
+    footer { text-align: center; padding: 2.5rem 1.5rem; background: var(--bg); color: #8aa7a1; font-size: 0.9rem; }
+    footer a { color: var(--accent); }
+    @media (max-width: 720px) { .shots { grid-template-columns: 1fr; } .hero h1 { font-size: 2.2rem; } }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>TRAMA</h1>
-        <p>Creador de ecomapas profesionales para trabajadores sociales</p>
-        <a href="https://github.com/TRAMA/ecomap" class="btn">Ver en GitHub</a>
-    </header>
-    <div class="container">
-        <h2>¿Qué es TRAMA?</h2>
-        <p>TRAMA es una herramienta de código abierto diseñada específicamente para profesionales del trabajo social, facilitando la creación de ecomapas complejos de manera intuitiva y eficiente.</p>
-        
-        <div class="features">
-            <div class="feature">
-                <h3>Local-First y Privacidad</h3>
-                <p>Tus datos siempre son tuyos. TRAMA funciona completamente offline, asegurando la máxima privacidad y confidencialidad para la información sensible de los casos.</p>
-            </div>
-            <div class="feature">
-                <h3>Plantillas Profesionales</h3>
-                <p>Comienza rápidamente con plantillas predefinidas basadas en estándares profesionales del trabajo social, adaptables a diversas situaciones familiares y comunitarias.</p>
-            </div>
-            <div class="feature">
-                <h3>Open-Source</h3>
-                <p>Construido por y para la comunidad. TRAMA es 100% de código abierto (AGPL), lo que garantiza su transparencia, sostenibilidad y mejora continua.</p>
-            </div>
-        </div>
+  <header class="hero">
+    <img class="banner" src="assets/brand/github-banner.png" alt="TRAMA — Ecomapas profesionales para Trabajo Social">
+    <h1>TRAMA</h1>
+    <p class="tagline">Ecomapas profesionales para Trabajo Social</p>
+    <p class="pillars">Local-first · Open Source · macOS</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://github.com/AtelierMinuit/TRAMA/releases">Descargar</a>
+      <a class="btn btn-secondary" href="https://github.com/AtelierMinuit/TRAMA">Ver en GitHub</a>
     </div>
-    <footer>
-        <p>&copy; 2026 Proyecto TRAMA. Licenciado bajo AGPL.</p>
-    </footer>
+  </header>
+
+  <main class="container">
+    <section>
+      <h2>El problema que resuelve</h2>
+      <p class="lead">
+        Las herramientas genéricas de diagramación no entienden la semántica de las relaciones humanas.
+        TRAMA ofrece un enfoque estructurado, con base académica y reproducible para mapear la red de
+        sistemas alrededor de una persona o familia — respetando la confidencialidad de los datos del caso.
+      </p>
+    </section>
+
+    <section>
+      <h2>Funcionalidades</h2>
+      <div class="grid">
+        <div class="card"><h3>Relaciones semánticas</h3><p>Tipos estándar y extendidos (fuerte, conflictiva, enredada, cortada, mandatada…) con estilo de línea distinto, no solo color. Legible en escala de grises y para daltonismo.</p></div>
+        <div class="card"><h3>Flujo de energía</h3><p>Cada relación lleva una dirección de flujo independiente: hacia el centro, desde el centro o mutua.</p></div>
+        <div class="card"><h3>Snapshots y comparación</h3><p>Captura versiones con nombre y fecha del caso y compara dos snapshots para ver exactamente qué cambió entre sesiones.</p></div>
+        <div class="card"><h3>Procedencia</h3><p>Cada nodo y conexión registra su tipo de fuente y estado de verificación, para una práctica defendible y basada en evidencia.</p></div>
+        <div class="card"><h3>Exportación profesional</h3><p>SVG vectorial, PNG a 2× y PDF orientado a A4, con leyenda opcional y consciente del tema.</p></div>
+        <div class="card"><h3>Casos portables</h3><p>Importa y exporta archivos <code>.trama</code> (contenedor ZIP abierto) para continuar el trabajo en otro dispositivo.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Privacidad</h2>
+      <div class="privacy">
+        <p>
+          TRAMA es <strong>local-first</strong>: sin servidor, sin cuenta, sin telemetría, sin llamadas de red.
+          Los datos se guardan en una base SQLite local (o <code>localStorage</code> en navegador).
+          <strong>TRAMA no cifra los datos en reposo por sí mismo</strong>; la protección física depende del
+          cifrado del dispositivo (p. ej. FileVault). No es cifrado de extremo a extremo porque no hay red.
+          Las operaciones de archivo están restringidas a rutas elegidas por diálogo nativo, con validación
+          de traversal, allowlist de extensiones y límite de 50 MiB.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Capturas</h2>
+      <div class="shots">
+        <figure><img src="assets/screenshots/dashboard.png" alt="Dashboard"><figcaption>Dashboard</figcaption></figure>
+        <figure><img src="assets/screenshots/editor.png" alt="Editor"><figcaption>Editor</figcaption></figure>
+        <figure><img src="assets/screenshots/inspector.png" alt="Inspector de relación"><figcaption>Inspector de relación</figcaption></figure>
+        <figure><img src="assets/screenshots/snapshots.png" alt="Snapshots"><figcaption>Snapshots / versiones</figcaption></figure>
+        <figure><img src="assets/screenshots/comparison.png" alt="Comparación temporal"><figcaption>Comparación temporal</figcaption></figure>
+        <figure><img src="assets/screenshots/export.png" alt="Exportación"><figcaption>Exportación</figcaption></figure>
+        <figure><img src="assets/screenshots/settings.png" alt="Ajustes"><figcaption>Ajustes / privacidad</figcaption></figure>
+        <figure><img src="assets/screenshots/dark-mode.png" alt="Modo oscuro"><figcaption>Modo oscuro</figcaption></figure>
+      </div>
+      <p class="lead" style="margin-top:1.5rem">Todas las capturas usan únicamente datos ficticios (caso demo "Familia Rivera").</p>
+    </section>
+
+    <section>
+      <h2>Descarga y documentación</h2>
+      <p class="lead">
+        Binarios precompilados para macOS Apple Silicon en la página de
+        <a href="https://github.com/AtelierMinuit/TRAMA/releases">Releases</a>. Código fuente,
+        arquitectura, modelo de datos y guía de contribución en
+        <a href="https://github.com/AtelierMinuit/TRAMA">GitHub</a>.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>TRAMA · <a href="https://github.com/AtelierMinuit/TRAMA">AtelierMinuit/TRAMA</a> · AGPL-3.0-only</p>
+  </footer>
 </body>
 </html>

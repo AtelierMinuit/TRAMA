@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" role="img" aria-labelledby="t d" font-family="-apple-system, 'SF Pro Display', 'Avenir Next', sans-serif">
+  <title id="t">TRAMA — Ecomapas profesionales para Trabajo Social</title>
+  <desc id="d">Local-first · Open Source · macOS</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#173f3b"/>
+      <stop offset="1" stop-color="#0f2b28"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="640" fill="url(#bg)"/>
+
+  <!-- Ecomap mark -->
+  <g transform="translate(180 320) scale(1.4)">
+    <path d="M0 0 -132 -122M0 0l156-90M0 0l16 168" fill="none" stroke="#a9d7ca" stroke-width="26" stroke-linecap="round"/>
+    <path d="M-132 -122 156 -90" fill="none" stroke="#d08b6d" stroke-width="16" stroke-linecap="round" stroke-dasharray="26 26"/>
+    <circle cx="0" cy="0" r="70" fill="#f4f1ea" stroke="#a9d7ca" stroke-width="20"/>
+    <circle cx="-132" cy="-122" r="40" fill="#d08b6d" stroke="#f4f1ea" stroke-width="16"/>
+    <circle cx="156" cy="-90" r="40" fill="#a9d7ca" stroke="#0f2b28" stroke-width="16"/>
+    <circle cx="16" cy="168" r="40" fill="#d8b36b" stroke="#0f2b28" stroke-width="16"/>
+  </g>
+
+  <text x="520" y="300" fill="#f4f1ea" font-size="86" font-weight="700" letter-spacing="2">TRAMA</text>
+  <text x="524" y="358" fill="#a9d7ca" font-size="34" font-weight="500">Ecomapas profesionales para Trabajo Social</text>
+  <text x="524" y="412" fill="#7a9a93" font-size="26" font-weight="500" letter-spacing="1">Local-first · Open Source · macOS</text>
+
+  <rect x="0" y="634" width="1280" height="6" fill="#a9d7ca" opacity="0.5"/>
+</svg>

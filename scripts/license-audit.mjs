@@ -38,7 +38,7 @@ function collectDependencyTree(node) {
 
 if (fs.existsSync(packageRoot)) {
   try {
-    const listing = JSON.parse(execFileSync("pnpm", ["list", "--json", "--depth", "Infinity", "--prod=false"], { cwd: root, encoding: "utf8" }));
+    const listing = JSON.parse(execFileSync("pnpm", ["list", "--json", "--depth", "Infinity", "--prod=false"], { cwd: root, encoding: "utf8", maxBuffer: 16 * 1024 * 1024 }));
     for (const project of listing) collectDependencyTree(project);
   } catch (error) {
     console.error("No se pudo obtener el árbol de dependencias de pnpm para la auditoría.", error instanceof Error ? error.message : error);
@@ -47,7 +47,7 @@ if (fs.existsSync(packageRoot)) {
 }
 
 const allow = new Set([
-  "0BSD", "AGPL-3.0-only", "Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "CC0-1.0",
+  "0BSD", "AGPL-3.0-only", "Apache-2.0", "BlueOak-1.0.0", "BSD-2-Clause", "BSD-3-Clause", "CC0-1.0",
   "ISC", "MIT", "MPL-2.0", "Python-2.0", "Unlicense", "Zlib",
 ]);
 const findings = [...packages.values()].sort((a, b) => a.name.localeCompare(b.name) || a.version.localeCompare(b.version));
