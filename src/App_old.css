@@ -6,29 +6,40 @@
    1. TOKENS & BASE
    -------------------------------------------------------------------------- */
 :root {
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-  --font-serif: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif; /* No serif for macOS */
-  
-  --surface: #f5f5f7;
+  --paper: #f5f3ef;
+  --surface: #faf8f4;
   --surface-strong: #ffffff;
-  --ink: #1d1d1f;
-  --muted: #86868b;
-  --line: #e5e5ea;
+  --ink: #14201d;
+  --muted: #6b7570;
+  --line: #dedad2;
+  --line-strong: #bfc7c0;
   
-  --accent: #007aff;
-  --accent-strong: #006ae6;
-  --accent-soft: #e6f2ff;
+  --accent: #1a5c58;
+  --accent-strong: #134744;
+  --accent-soft: #d6ecea;
   
-  --warm: #ff9500;
-  --danger: #ff3b30;
+  --warm: #b96d4e;
+  --danger: #9d4e4d;
   
-  --category-health: #34c759;
-  --category-edu: #5856d6;
-  --category-work: #ff9500;
-  
+  --header-bg: #132e2c;
+  --header-ink: #e8f0ee;
+  --header-muted: #89a8a3;
+
   --radius-sm: 6px;
-  --radius-md: 8px;
+  --radius-md: 9px;
   --radius-lg: 12px;
+  
+  --shadow: 0 18px 45px rgba(26, 37, 33, .08);
+  
+  --font-sans: "Avenir Next", Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--font-sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 * { box-sizing: border-box; }
@@ -44,16 +55,23 @@ button:disabled { cursor: not-allowed; opacity: .45; }
 /* --------------------------------------------------------------------------
    2. THEMES
    -------------------------------------------------------------------------- */
-.theme-dark {
-  --surface: #282828;
-  --surface-strong: #1e1e1e;
-  --ink: #f5f5f7;
-  --muted: #98989d;
-  --line: #38383a;
-  
-  --accent: #0a84ff;
-  --accent-strong: #409cff;
-  --accent-soft: rgba(10, 132, 255, 0.15);
+.theme-dark { 
+  --paper: #161b1a; 
+  --surface: #1d2524; 
+  --surface-strong: #252f2e; 
+  --ink: #e8f0ee; 
+  --muted: #89a8a3; 
+  --line: #35423f; 
+  --line-strong: #4f615d; 
+  --accent: #5e9c97; 
+  --accent-strong: #96c7c3; 
+  --accent-soft: #1c3d3a; 
+  --warm: #cc8468; 
+  --danger: #df807e; 
+  --header-bg: #111a19;
+  --header-ink: #e8f0ee;
+  --header-muted: #89a8a3;
+  --shadow: 0 18px 45px rgba(0, 0, 0, .25); 
 }
 
 .theme-monochrome { 
@@ -552,12 +570,3 @@ input:hover, select:hover, textarea:hover, input:focus, select:focus, textarea:f
     transition-duration: 0.01ms !important;
   }
 }
-
-/* macOS Aesthetics & Fixes */
-button { font-family: var(--font-sans); }
-.recent-row { min-width: 0; overflow: hidden; }
-.recent-copy strong { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
-.recent-copy small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
-.editor-header h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px; font-weight: 500; }
-.system-item span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.brand strong { font-weight: 600; letter-spacing: -0.01em; }
