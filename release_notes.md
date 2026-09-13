@@ -1,12 +1,11 @@
-### TRAMA - Rediseño macOS (Steve Jobs Edition)
+### TRAMA - Rediseño macOS V2 (El Toque Mágico)
 
-Esta actualización `alpha.2` aborda directamente el rediseño completo de la interfaz, alineándola con las directrices HIG (Human Interface Guidelines) de Apple.
+Esta iteración `alpha.3` refina la interfaz enfocándose en una reducción extrema del ruido visual y en una inyección de vida y color al lienzo, alineándose estrictamente a la mentalidad de diseño orientada al usuario final.
 
 #### 🎨 Cambios Estéticos y Funcionales
-- **Paleta Nativa:** Transición a fondos grises sutiles, blanco puro y acento *System Blue*. Adiós a los verdes saturados y fondos crema.
-- **Tipografía:** Implementación estricta de `SF Pro` / `-apple-system`. Reducción del tamaño base a 13px para controles.
-- **Limpieza de Layouts:** Se implementaron correcciones estructurales profundas para evitar *textos montados*. Todos los textos largos ahora se truncan elegantemente.
-- **Acabados:** Botones rediseñados con radios de `6px`, bordes y sombras sutiles, eliminando la sensación web.
+- **Silencio Visual:** Se eliminaron etiquetas innecesarias, encabezados técnicos y mensajes de estado redundantes. La interfaz ahora se hace invisible para cederle el escenario completo a tu trabajo.
+- **Ecomapas Vibrantes:** Los nodos de red ahora utilizan la paleta vibrante de Apple (Rojos vibrantes, Índigos profundos, Verdes nítidos y Naranjas cálidos). Atrás quedaron los tonos apagados y "pasteles"; el ecomapa ahora está lleno de energía y contraste visual.
+- **Flujo Limpio:** El panel del inspector ahora posee estados vacíos limpios, reduciendo el peso de íconos masivos cuando no hay nada seleccionado.
 
 #### 📦 Instalación
-Descarga el **TRAMA_0.1.0-alpha.2_aarch64.dmg**, ábrelo y arrástralo a Aplicaciones. (Recuerda hacer *Clic Derecho -> Abrir* la primera vez).
+Descarga el **TRAMA_0.1.0-alpha.3_aarch64.dmg**, ábrelo y arrástralo a Aplicaciones.
