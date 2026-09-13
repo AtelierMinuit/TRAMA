@@ -1,6 +1,6 @@
 [package]
 name = "trama"
-version = "0.1.0-alpha.3"
+version = "0.1.0-alpha.4"
 description = "TRAMA: ecomapas profesionales locales"
 authors = ["TRAMA contributors"]
 edition = "2021"

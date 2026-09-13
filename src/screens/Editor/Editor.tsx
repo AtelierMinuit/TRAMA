@@ -98,100 +98,9 @@ export function Editor({
   return (
     <div className="editor-screen">
       {/* Editor Header */}
-      <header className="editor-header">
-        <div className="editor-brand">
-          <div className="brand-mark small"><Icon name="trama" size={22} /></div>
-          <button className="brand-wordmark" onClick={onClose}>TRAMA</button>
-        </div>
-
-        <div className="document-title">
-          <label className="visually-hidden" htmlFor="doc-title-input">
-            {language === "es" ? "Nombre del ecomapa" : "Ecomap name"}
-          </label>
-          <input
-            id="doc-title-input"
-            value={document.title}
-            onChange={(e) => onUpdateTitle(e.currentTarget.value)}
-          />
-          <span className="save-state" aria-live="polite">
-            <span className={`save-dot ${saveState}`} aria-hidden="true" />
-            {statusLabel(language, saveState)}
-          </span>
-        </div>
-
-        <div className="editor-actions">
-          <button className="quiet-button" onClick={onLanguage} aria-label={language === "es" ? "Cambiar idioma a inglés" : "Switch language to Spanish"}>
-            {language.toUpperCase()}
-          </button>
-          <IconButton
-            icon={effectiveDark ? "sun" : "moon"}
-            label={effectiveDark ? t(language, "lightMode") : t(language, "darkMode")}
-            onClick={onTheme}
-          />
-          <IconButton icon="settings" label={t(language, "settings")} onClick={onSettings} />
-          <button className="outline-button" onClick={onExport}>
-            <Icon name="download" size={16} />
-            {t(language, "export")}
-          </button>
-          <IconButton icon="close" label={t(language, "close")} onClick={onClose} />
-        </div>
-      </header>
+      
 
       {/* Toolbar */}
-      <div className="editor-toolbar">
-        <div className="toolbar-group">
-          <button
-            className="toolbar-button primary-connect"
-            onClick={onConnect}
-            disabled={document.systems.length === 0}
-          >
-            <Icon name="link" size={16} />
-            {t(language, "connect")}
-          </button>
-          <div className="toolbar-divider" />
-          <IconButton
-            icon="back"
-            label={`${language === "es" ? "Deshacer" : "Undo"} (⌘Z)`}
-            onClick={onUndo}
-            disabled={past.length === 0}
-          />
-          <IconButton
-            icon="forward"
-            label={`${language === "es" ? "Rehacer" : "Redo"} (⌘⇧Z)`}
-            onClick={onRedo}
-            disabled={future.length === 0}
-          />
-          <button className="toolbar-button" onClick={onSave}>
-            <Icon name="save" size={16} />
-            {t(language, "save")}
-          </button>
-          <IconButton
-            icon="more"
-            label={language === "es" ? "Guardar como .trama" : "Save as .trama"}
-            onClick={onSaveAs}
-          />
-        </div>
-
-        <div className="toolbar-group toolbar-center">
-          <span className="document-meta">
-            {document.systems.length} {language === "es" ? "sistemas" : "systems"} ·{" "}
-            {document.connections.length} {language === "es" ? "vínculos" : "ties"}
-          </span>
-        </div>
-
-        <div className="toolbar-group">
-          <button className="toolbar-button" onClick={onOrganize}>
-            <Icon name="grid" size={16} />
-            {t(language, "organize")}
-          </button>
-          <div className="toolbar-divider" />
-          <button className="toolbar-button" onClick={onSnapshots}>
-            <Icon name="history" size={16} />
-            {t(language, "history")}
-          </button>
-        </div>
-      </div>
-
       {/* Editor Body */}
       <div className="editor-body">
         {/* Left Panel — Systems / Templates */}
@@ -401,6 +310,46 @@ export function Editor({
             onCompare={onCompare}
           />
         </aside>
+
+        {/* Floating Header (Title & Status) */}
+        <div className="floating-header">
+          <div className="editor-brand">
+            <div className="brand-mark small"><Icon name="trama" size={20} /></div>
+            <button className="brand-wordmark" onClick={onClose}>TRAMA</button>
+          </div>
+          <div className="toolbar-divider" style={{ height: 16 }} />
+          <input
+            id="doc-title-input"
+            value={document.title}
+            onChange={(e) => onUpdateTitle(e.currentTarget.value)}
+            aria-label="Nombre del documento"
+          />
+          <span className="save-state">
+            <span className={`save-dot ${saveState}`} />
+            {statusLabel(language, saveState)}
+          </span>
+          <div className="toolbar-divider" style={{ height: 16 }} />
+          <IconButton icon="download" label="Exportar" onClick={onExport} />
+        </div>
+
+        {/* Floating Toolbar (Tools) */}
+        <div className="floating-toolbar">
+          <button className="toolbar-button primary-connect" onClick={onConnect} disabled={document.systems.length === 0} style={{ borderRadius: 20, padding: '6px 12px' }}>
+            <Icon name="link" size={16} /> {t(language, "connect")}
+          </button>
+          <div className="toolbar-divider" />
+          <IconButton icon="back" label="Deshacer" onClick={onUndo} disabled={past.length === 0} />
+          <IconButton icon="forward" label="Rehacer" onClick={onRedo} disabled={future.length === 0} />
+          <div className="toolbar-divider" />
+          <IconButton icon="grid" label="Organizar" onClick={onOrganize} />
+          <IconButton icon="history" label="Historial" onClick={onSnapshots} />
+          <div className="toolbar-divider" />
+          <button className="toolbar-button" onClick={onSave} style={{ borderRadius: 20, padding: '6px 12px', background: 'var(--accent-soft)', color: 'var(--accent-strong)' }}>
+            <Icon name="save" size={16} /> Guardar
+          </button>
+          <IconButton icon="more" label="Opciones" onClick={onSaveAs} />
+        </div>
+
       </div>
     </div>
   );
