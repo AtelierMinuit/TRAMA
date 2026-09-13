@@ -3,6 +3,13 @@ description: Reporta un error en TRAMA
 title: "[BUG] "
 labels: ["bug"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ **Privacidad ante todo.**
+        - **NO adjuntes** expedientes reales, datos personales, RUT, correos ni nombres reales.
+        - **NO adjuntes** información que identifique a un niño, niña o adolescente (NNA) o familia real.
+        - Si necesitas ilustrar el bug, usa datos ficticios.
   - type: textarea
     id: description
     attributes:
@@ -24,17 +31,36 @@ body:
       description: Qué esperabas que sucediera.
     validations:
       required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Comportamiento observado
+      description: Qué sucedió en su lugar.
+    validations:
+      required: true
   - type: input
     id: version
     attributes:
       label: Versión de TRAMA
-      description: Ej. v1.0.2
+      description: Ej. v0.1.0-alpha.1
     validations:
       required: true
   - type: input
     id: os
     attributes:
-      label: Sistema Operativo
-      description: Ej. macOS Sonoma, Windows 11
+      label: macOS versión
+      description: Ej. macOS 15.2
     validations:
       required: true
+  - type: input
+    id: arch
+    attributes:
+      label: Arquitectura
+      description: Apple Silicon (arm64) o Intel (x86_64)
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs sanitizados
+      description: Pega logs relevantes con rutas y datos personales eliminados.

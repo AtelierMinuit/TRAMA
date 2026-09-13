@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import type { Ecomap, SystemNode, Connection } from "../domain/model";
-import { cloneState, withUpdatedTimestamp, nowIso } from "../domain/model";
+import { withUpdatedTimestamp, nowIso } from "../domain/model";
 
 function clone<T>(value: T): T { return structuredClone(value); }
 

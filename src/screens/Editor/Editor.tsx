@@ -1,8 +1,7 @@
 import { useDocumentContext } from "../../context/DocumentContext";
 import { toSchemaTexDsl } from "../../adapters/schematex";
-import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject, type CSSProperties } from "react";
+import { type ReactNode, useEffect, useMemo, useState, type MutableRefObject, type CSSProperties } from "react";
 import { SchematexDiagram } from "schematex/react";
-import type { ViewportController } from "schematex/interactive";
 import { Icon } from "../../components/Icon";
 import { 
   IconButton, FormField, 
@@ -29,7 +28,6 @@ import type {
   SourceType,
   StandardRelationshipType,
   SystemNode,
-  Template,
   VerificationStatus
 } from "../../domain/model";
 
@@ -46,7 +44,7 @@ export function Editor({
   onSave,
   onSaveAs,
   viewportRef,
-  onSettings,
+  onSettings: _onSettings,
   onLanguage,
   onTheme,
 }: {
@@ -73,6 +71,33 @@ export function Editor({
     autoOrganize: onOrganize, saveState, repoState, commitDocument
   } = useDocumentContext();
 
+  const allCategories = repoState?.categories ?? [];
+  const templates = repoState?.templates ?? [];
+  const categories = allCategories.filter((c) => !c.hidden).sort((a, b) => a.orderIndex - b.orderIndex);
+  const selectedSystem = document && selection?.kind === "system" ? document.systems.find((s) => s.id === selection.id) ?? null : null;
+  const selectedConnection = document && selection?.kind === "connection" ? document.connections.find((c) => c.id === selection.id) ?? null : null;
+
+  const projectionDsl = useMemo(() => document ? toSchemaTexDsl(document, allCategories) : "", [document, allCategories]);
+
+  const [showAllSystems, setShowAllSystems] = useState(false);
+  const [panelTab, setPanelTab] = useState<"systems" | "templates">("systems");
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
+  const [reportOpen, setReportOpen] = useState(false);
+
+  const projectionSvg = useMemo(() => {
+    if (!document) return "";
+    try {
+      return renderSchemaTex(document, allCategories, effectiveDark ? "dark" : "light").svg;
+    } catch {
+      return "";
+    }
+  }, [document, allCategories, effectiveDark]);
+
+  const filteredSystems = document ? document.systems.filter((s) =>
+    s.label.toLowerCase().includes(search.toLowerCase()),
+  ) : [];
+
   const onUpdateSystem = (patch: Partial<SystemNode>) => {
     if (selectedSystem) updateSystem(selectedSystem.id, patch);
   };
@@ -83,33 +108,6 @@ export function Editor({
   const onUpdateTitle = (title: string) => { commitDocument((current) => ({ ...current, title })); };
 
   if (!document || !repoState) return null;
-
-  const allCategories = repoState.categories;
-  const templates = repoState.templates;
-  const categories = allCategories.filter((c) => !c.hidden).sort((a, b) => a.orderIndex - b.orderIndex);
-  
-  const selectedSystem = selection?.kind === "system" ? document.systems.find((s) => s.id === selection.id) ?? null : null;
-  const selectedConnection = selection?.kind === "connection" ? document.connections.find((c) => c.id === selection.id) ?? null : null;
-  
-  const projectionDsl = useMemo(() => toSchemaTexDsl(document, allCategories), [document, allCategories]);
-
-  const [showAllSystems, setShowAllSystems] = useState(false);
-  const [panelTab, setPanelTab] = useState<"systems" | "templates">("systems");
-  const [paletteOpen, setPaletteOpen] = useState(false);
-  const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
-  const [reportOpen, setReportOpen] = useState(false);
-
-  const projectionSvg = useMemo(() => {
-    try {
-      return renderSchemaTex(document, allCategories, effectiveDark ? "dark" : "light").svg;
-    } catch {
-      return "";
-    }
-  }, [document, allCategories, effectiveDark]);
-
-  const filteredSystems = document.systems.filter((s) =>
-    s.label.toLowerCase().includes(search.toLowerCase()),
-  );
 
   return (
     <div className="editor-screen">
