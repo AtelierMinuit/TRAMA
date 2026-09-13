@@ -20,27 +20,27 @@ const categorySeed: Array<[
   Category["visualStyle"],
   string,
 ]> = [
-  ["family", "Familia", "family", "⌂", "solid", "#ad5b4a"],
-  ["extended_family", "Familia extensa", "family", "⌁", "outline", "#b77743"],
-  ["friends_peers", "Amistades / pares", "friends", "◌", "outline", "#477b78"],
-  ["education", "Educación", "education", "□", "solid", "#4f7291"],
-  ["work", "Trabajo", "work", "▤", "solid", "#68735b"],
-  ["health", "Salud", "health", "＋", "solid", "#ad5b61"],
-  ["mental_health", "Salud mental", "mental-health", "◉", "outline", "#75639a"],
-  ["substance_treatment", "Consumo / tratamiento", "substance", "◍", "hatched", "#8b6d4f"],
-  ["housing", "Vivienda", "government", "⌂", "solid", "#78725f"],
-  ["food", "Alimentación", "community", "◒", "outline", "#6f7f4f"],
-  ["transport", "Transporte", "government", "⇢", "outline", "#5e7687"],
-  ["finance", "Ingresos / finanzas", "financial", "$", "solid", "#667a61"],
-  ["government", "Gobierno / servicios públicos", "government", "▦", "solid", "#596d82"],
-  ["justice", "Justicia", "legal", "§", "hatched", "#7c606b"],
-  ["religion", "Religión / espiritualidad", "religion", "✦", "outline", "#806d53"],
-  ["recreation", "Recreación", "recreation", "✳", "outline", "#4e7a72"],
-  ["community", "Comunidad", "community", "✧", "solid", "#53775b"],
-  ["culture", "Cultura", "cultural", "◈", "outline", "#886070"],
-  ["care", "Cuidados", "health", "♡", "solid", "#a35c62"],
-  ["organizations", "Organizaciones", "community", "▣", "solid", "#5d7182"],
-  ["other", "Otro", "other", "•", "outline", "#747474"],
+  ["family", "Familia", "family", "⌂", "solid", "#FF3B30"], // Red
+  ["extended_family", "Familia extensa", "family", "⌁", "outline", "#FF9500"], // Orange
+  ["friends_peers", "Amistades / pares", "friends", "◌", "outline", "#34C759"], // Green
+  ["education", "Educación", "education", "□", "solid", "#007AFF"], // Blue
+  ["work", "Trabajo", "work", "▤", "solid", "#5856D6"], // Indigo
+  ["health", "Salud", "health", "＋", "solid", "#FF2D55"], // Pink
+  ["mental_health", "Salud mental", "mental-health", "◉", "outline", "#AF52DE"], // Purple
+  ["substance_treatment", "Consumo / tratamiento", "substance", "◍", "hatched", "#A2845E"], // Brown
+  ["housing", "Vivienda", "government", "⌂", "solid", "#8E8E93"], // Gray
+  ["food", "Alimentación", "community", "◒", "outline", "#30B0C7"], // Teal
+  ["transport", "Transporte", "government", "⇢", "outline", "#32ADE6"], // Cyan
+  ["finance", "Ingresos / finanzas", "financial", "$", "solid", "#00C7BE"], // Mint
+  ["government", "Gobierno / servicios públicos", "government", "▦", "solid", "#5856D6"], // Indigo
+  ["justice", "Justicia", "legal", "§", "hatched", "#AF52DE"], // Purple
+  ["religion", "Religión / espiritualidad", "religion", "✦", "outline", "#FFCC00"], // Yellow
+  ["recreation", "Recreación", "recreation", "✳", "outline", "#34C759"], // Green
+  ["community", "Comunidad", "community", "✧", "solid", "#007AFF"], // Blue
+  ["culture", "Cultura", "cultural", "◈", "outline", "#FF9500"], // Orange
+  ["care", "Cuidados", "health", "♡", "solid", "#FF2D55"], // Pink
+  ["organizations", "Organizaciones", "community", "▣", "solid", "#32ADE6"], // Cyan
+  ["other", "Otro", "other", "•", "outline", "#8E8E93"], // Gray
 ];
 
 export function createDefaultCategories(workspaceId: string): Category[] {

@@ -173,9 +173,6 @@ export function Editor({
         </div>
 
         <div className="toolbar-group toolbar-center">
-          <span className="source-only-badge" title={t(language, "sourceOnlyNotice")}>
-            SchemaTex · ecomap
-          </span>
           <span className="document-meta">
             {document.systems.length} {language === "es" ? "sistemas" : "systems"} ·{" "}
             {document.connections.length} {language === "es" ? "vínculos" : "ties"}
@@ -349,10 +346,6 @@ export function Editor({
 
         {/* Canvas */}
         <main className="canvas-panel">
-          <div className="canvas-topline">
-            <span className="eyebrow">{t(language, "canvas")}</span>
-            <span className="canvas-hint">{t(language, "sourceOnlyNotice")}</span>
-          </div>
           <div
             className="canvas-stage"
             role="img"
@@ -384,11 +377,6 @@ export function Editor({
                 onClick={() => viewportRef.current?.zoomIn()}
               />
             </div>
-            <span>
-              {language === "es"
-                ? "Pan y zoom del canvas disponibles · arrastra el fondo"
-                : "Canvas pan and zoom available · drag the background"}
-            </span>
             <span className="legend-toggle">
               {language === "es" ? "Leyenda en exportación" : "Legend on export"}
             </span>
@@ -565,11 +553,10 @@ function Inspector({
       {!selection ? (
         <>
           <div className="inspector-empty">
-            <Icon name="trama" size={31} />
-            <p>
+            <p className="muted">
               {language === "es"
-                ? "Selecciona el centro, un sistema o un vínculo desde las listas para inspeccionar sus datos."
-                : "Select the center, a system, or a tie from the lists to inspect its data."}
+                ? "Ningún elemento seleccionado."
+                : "No selection."}
             </p>
           </div>
           <ConnectionList language={language} document={document} onSelect={onSelect} />
