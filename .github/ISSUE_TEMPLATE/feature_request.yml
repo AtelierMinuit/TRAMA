@@ -1,0 +1,29 @@
+name: Feature Request
+description: Sugiere una nueva funcionalidad para TRAMA
+title: "[FEATURE] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: ¿Tu solicitud está relacionada con un problema?
+      description: Una descripción clara y concisa del problema. Ej. Siempre me frustra cuando...
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Describe la solución que te gustaría
+      description: Una descripción clara y concisa de lo que quieres que suceda.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
+      description: Una descripción clara de cualquier solución alternativa o características que hayas considerado.
+  - type: textarea
+    id: additional
+    attributes:
+      label: Contexto adicional
+      description: Añade cualquier otro contexto o capturas de pantalla sobre la solicitud aquí.

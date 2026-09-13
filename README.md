@@ -38,7 +38,17 @@ Las herramientas tradicionales de diagramación no entienden la complejidad de l
 ## 📸 Interfaz y Herramientas
 
 <div align="center">
-  <img src="docs/assets/logo.jpg" alt="TRAMA Logo" width="150">
+  <img src="docs/assets/screenshots/editor.png" alt="TRAMA Editor" width="800">
+  <br/>
+  <em>Lienzo de edición infinito con herramientas contextuales</em>
+</div>
+
+<br/>
+
+<div align="center">
+  <img src="docs/assets/screenshots/dashboard.png" alt="TRAMA Dashboard" width="800">
+  <br/>
+  <em>Dashboard de gestión de casos en modo oscuro</em>
 </div>
 
 TRAMA ofrece un lienzo infinito (Infinite Canvas) de alto rendimiento capaz de sostener mapas de red extensos sin degradación visual. Su diseño de interfaz prioriza el contenido, con paletas de colores cálidas y contraste accesible (WCAG) para reducir la fatiga visual en jornadas de análisis extendidas.

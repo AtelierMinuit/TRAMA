@@ -5,112 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRAMA - Creador de Ecomapas Profesionales</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            color: #333;
-        }
-        header {
-            background-color: #2c3e50;
-            color: #fff;
-            padding: 2rem 0;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 3rem;
-        }
-        header p {
-            font-size: 1.2rem;
-            margin-top: 0.5rem;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        .features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        .feature-card {
-            flex: 1 1 calc(33.333% - 2rem);
-            background: #f4f7f6;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .feature-card h3 {
-            color: #2980b9;
-            margin-top: 0;
-        }
-        .cta {
-            text-align: center;
-            margin: 3rem 0;
-        }
-        .btn {
-            display: inline-block;
-            background: #27ae60;
-            color: #fff;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-        .btn:hover {
-            background: #2ecc71;
-        }
-        footer {
-            background: #2c3e50;
-            color: #bdc3c7;
-            text-align: center;
-            padding: 1.5rem 0;
-            margin-top: 3rem;
-        }
-        @media(max-width: 768px) {
-            .feature-card {
-                flex: 1 1 100%;
-            }
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; color: #333; }
+        header { background: #2c3e50; color: #fff; padding: 3rem 1rem; text-align: center; }
+        header h1 { margin: 0; font-size: 2.5rem; }
+        header p { font-size: 1.2rem; opacity: 0.9; margin-top: 1rem; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1rem; }
+        .features { display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 2rem; }
+        .feature { flex: 1; min-width: 250px; padding: 1.5rem; background: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .feature h3 { margin-top: 0; color: #2c3e50; }
+        .btn { display: inline-block; background: #3498db; color: #fff; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 4px; font-weight: bold; margin-top: 1.5rem; }
+        .btn:hover { background: #2980b9; }
+        footer { text-align: center; padding: 2rem; background: #ecf0f1; margin-top: 2rem; }
     </style>
 </head>
 <body>
     <header>
         <h1>TRAMA</h1>
-        <p>El creador de ecomapas profesionales para trabajadores sociales</p>
+        <p>Creador de ecomapas profesionales para trabajadores sociales</p>
+        <a href="https://github.com/TRAMA/ecomap" class="btn">Ver en GitHub</a>
     </header>
-
     <div class="container">
-        <section class="intro">
-            <h2>Transforma tu forma de trabajar</h2>
-            <p>TRAMA es la herramienta definitiva para profesionales del Trabajo Social. Diseña ecomapas de manera rápida, intuitiva y profesional, manteniendo siempre la privacidad de tus datos.</p>
-        </section>
-
-        <section class="features">
-            <div class="feature-card">
-                <h3>Local-first y Privacidad</h3>
-                <p>Tus datos son tuyos. Todo se procesa y almacena localmente en tu dispositivo. Sin servidores externos ni bases de datos en la nube. Privacidad total para tus intervenciones.</p>
+        <h2>¿Qué es TRAMA?</h2>
+        <p>TRAMA es una herramienta de código abierto diseñada específicamente para profesionales del trabajo social, facilitando la creación de ecomapas complejos de manera intuitiva y eficiente.</p>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>Local-First y Privacidad</h3>
+                <p>Tus datos siempre son tuyos. TRAMA funciona completamente offline, asegurando la máxima privacidad y confidencialidad para la información sensible de los casos.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature">
                 <h3>Plantillas Profesionales</h3>
-                <p>Accede a diseños basados en estándares de la profesión. Crea ecomapas que comunican con claridad las redes de apoyo familiar e institucional.</p>
+                <p>Comienza rápidamente con plantillas predefinidas basadas en estándares profesionales del trabajo social, adaptables a diversas situaciones familiares y comunitarias.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature">
                 <h3>Open-Source</h3>
-                <p>Construido por y para la comunidad. TRAMA es código abierto, transparente y auditable, fomentando la colaboración en la disciplina del Trabajo Social.</p>
+                <p>Construido por y para la comunidad. TRAMA es 100% de código abierto (AGPL), lo que garantiza su transparencia, sostenibilidad y mejora continua.</p>
             </div>
-        </section>
-
-        <section class="cta">
-            <a href="https://github.com/TRAMA/trama" class="btn">Ver en GitHub</a>
-        </section>
+        </div>
     </div>
-
     <footer>
         <p>&copy; 2026 Proyecto TRAMA. Licenciado bajo AGPL.</p>
     </footer>

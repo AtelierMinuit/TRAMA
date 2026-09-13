@@ -9,7 +9,7 @@ import {
   STANDARD_RELATIONSHIP_OPTIONS, EXTENDED_RELATIONSHIP_OPTIONS, 
   FLOW_OPTIONS, VERIFICATION_OPTIONS, SOURCE_OPTIONS,
   sourceLabel, relationshipLabel, flowLabel,
-  type Selection, type SaveState
+  type Selection, type SaveState, getTemplateIcon
 } from "../../shared";
 import { t } from "../../i18n";
 import type { Language } from "../../i18n";
@@ -329,7 +329,7 @@ export function Editor({
                   onClick={() => {/* future: apply template to current doc */}}
                   title={template.description}
                 >
-                  <span className="template-panel-icon">{getTemplateIcon(template.name)}</span>
+                  <span className="template-panel-icon"><Icon name={getTemplateIcon(template.name)} size={16} /></span>
                   <span>
                     <strong>{template.name}</strong>
                     <small>{template.description}</small>
@@ -923,19 +923,5 @@ export function ProvenanceFields({
   );
 }
 
-const TEMPLATE_ICONS: Record<string, string> = {
-  "Persona": "👤",
-  "Familia": "🏠",
-  "Adolescente": "🎒",
-  "Persona mayor": "🌿",
-  "Red": "🤝",
-  "Ingreso": "📋",
-};
 
-export function getTemplateIcon(name: string): string {
-  for (const [key, icon] of Object.entries(TEMPLATE_ICONS)) {
-    if (name.startsWith(key)) return icon;
-  }
-  return "📄";
-}
 

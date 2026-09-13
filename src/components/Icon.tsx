@@ -22,6 +22,12 @@ export type IconName =
   | "sun"
   | "trama"
   | "trash"
+  | "user"
+  | "home"
+  | "briefcase"
+  | "heart"
+  | "users"
+  | "file-text"
   | "zoom-in"
   | "zoom-out";
 
@@ -62,6 +68,12 @@ export function Icon({ name, size = 18, strokeWidth = 1.7, label }: IconProps): 
     sun: <><circle cx="12" cy="12" r="3.5" {...common} /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" {...common} /></>,
     trama: <><circle cx="12" cy="12" r="3" {...common} /><circle cx="4.5" cy="6" r="2" {...common} /><circle cx="19.5" cy="6" r="2" {...common} /><circle cx="5.5" cy="19" r="2" {...common} /><path d="m6.1 7.5 3.4 2.8M17.9 7.5l-3.4 2.8M7 17.7l3-3M17 17.7l-3-3" {...common} /></>,
     trash: <><path d="M5 7h14M10 11v6M14 11v6M8 7l.7-3h6.6l.7 3M7 7l.7 14h8.6L17 7" {...common} /></>,
+    user: <><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" {...common} /><circle cx="12" cy="7" r="4" {...common} /></>,
+    home: <><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" {...common} /><polyline points="9 22 9 12 15 12 15 22" {...common} /></>,
+    briefcase: <><rect width="20" height="14" x="2" y="7" rx="2" ry="2" {...common} /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" {...common} /></>,
+    heart: <><path d="M19 14l-7 7-7-7a5 5 0 0 1 7-7 5 5 0 0 1 7 7z" {...common} /></>,
+    users: <><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" {...common} /><circle cx="8.5" cy="7" r="4" {...common} /><polyline points="16 11 18 11 22 11" {...common} /><polyline points="19 8 19 14" {...common} /></>,
+    "file-text": <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" {...common} /><polyline points="14 2 14 8 20 8" {...common} /><line x1="16" y1="13" x2="8" y2="13" {...common} /><line x1="16" y1="17" x2="8" y2="17" {...common} /><polyline points="10 9 9 9 8 9" {...common} /></>,
     "zoom-in": <><circle cx="10.5" cy="10.5" r="6" {...common} /><path d="m15 15 5 5M10.5 7.5v6M7.5 10.5h6" {...common} /></>,
     "zoom-out": <><circle cx="10.5" cy="10.5" r="6" {...common} /><path d="m15 15 5 5M7.5 10.5h6" {...common} /></>,
   };

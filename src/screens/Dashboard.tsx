@@ -1,26 +1,10 @@
 import type { ReactNode } from "react";
 import { Icon } from "../components/Icon";
 import { t } from "../i18n";
-import { IconButton, formatDateShort } from "../shared";
+import { IconButton, formatDateShort, getTemplateIcon } from "../shared";
 import type { Language } from "../i18n";
 import type { RepositoryState, Ecomap, Template } from "../domain/model";
 import type { ThemeMode } from "../shared";
-
-const TEMPLATE_ICONS: Record<string, string> = {
-  "Persona": "👤",
-  "Familia": "🏠",
-  "Adolescente": "🎒",
-  "Persona mayor": "🌿",
-  "Red": "🤝",
-  "Ingreso": "📋",
-};
-
-function getTemplateIcon(name: string): string {
-  for (const [key, icon] of Object.entries(TEMPLATE_ICONS)) {
-    if (name.startsWith(key)) return icon;
-  }
-  return "📄";
-}
 
 export function Dashboard({
   language,
@@ -175,7 +159,7 @@ export function Dashboard({
                 onClick={() => onTemplate(template)}
               >
                 <span className="template-card-icon">
-                  {getTemplateIcon(template.name)}
+                  <Icon name={getTemplateIcon(template.name)} size={24} />
                 </span>
                 <strong>{template.name}</strong>
                 <small>{template.description}</small>

@@ -127,3 +127,20 @@ export function flowLabel(language: any, flow: EnergyFlow): string {
 export function relationshipLabel(language: any, relation: RelationshipType): string {
   return t(language, relationMessageKey(relation));
 }
+
+
+const TEMPLATE_ICONS: Record<string, IconName> = {
+  "Persona": "user",
+  "Familia": "home",
+  "Adolescente": "user",
+  "Persona mayor": "user",
+  "Red": "users",
+  "Ingreso": "file-text",
+};
+
+export function getTemplateIcon(name: string): IconName {
+  for (const [key, icon] of Object.entries(TEMPLATE_ICONS)) {
+    if (name.startsWith(key)) return icon;
+  }
+  return "file-text";
+}
