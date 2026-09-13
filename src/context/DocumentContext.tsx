@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useEffect, useState, useCallback, useMemo, useRef, type ReactNode } from "react";
-import { type Ecomap, type RepositoryState, type SystemNode, type Connection, type Category, type Template, type Snapshot, type CenterRepresentation, type RelationshipType, type EnergyFlow, createId, createSystemNode, createEmptyDocument, createConnection, cloneState, nowIso, withUpdatedTimestamp } from "../domain/model";
+import React, { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
+import { type Ecomap, type RepositoryState, type SystemNode, type Connection, type Category, createId, createSystemNode, cloneState, nowIso } from "../domain/model";
 import { LocalRepository } from "../infrastructure/repository";
 import { useEcomapHistory } from "../hooks/useEcomapHistory";
-import { type Selection, type SaveState, type ThemeMode } from "../shared";
+import { type Selection, type SaveState } from "../shared";
 
 export const repository = new LocalRepository();
 
@@ -92,7 +92,7 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
             setSaveState("saved"); 
           }
         })
-        .catch((err: unknown) => {
+        .catch(() => {
           if (active) {
             setSaveState("error");
           }

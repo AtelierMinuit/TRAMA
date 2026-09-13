@@ -3,8 +3,8 @@ import {
   FileText, Users, FolderOpen, Plus, Save, RotateCcw, RotateCw,
   LayoutGrid, History, Settings, MoreVertical, Trash2, ArrowRight,
   Sun, Moon, ChevronRight, Check, X, Shield, Activity, Network,
-  House, Building, Building2, Briefcase, User, Heart, BookOpen, GraduationCap,
-  Scale, Bus, Coffee, Wallet, TreePine, Map, MessageSquare, ZoomIn, ZoomOut,
+  House, Building2, Briefcase, User, Heart, BookOpen, GraduationCap,
+  Scale, Bus, Coffee, Wallet, ZoomIn, ZoomOut,
   Maximize, Download, Link
 } from "lucide-react";
 
@@ -22,8 +22,8 @@ interface IconProps {
   className?: string;
 }
 
-export function Icon({ name, size = 18, className = "" }: IconProps): ReactNode {
-  const props = { size, className: `lucide-icon \${className}`, strokeWidth: 1.5 };
+export function Icon({ name, size = 18, className }: IconProps): ReactNode {
+  const props = { size, className: className ?? `lucide-icon`, strokeWidth: 1.5 };
 
   switch (name) {
     case "file": return <FileText {...props} />;

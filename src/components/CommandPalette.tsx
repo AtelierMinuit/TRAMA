@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Command } from "cmdk";
 import { Icon } from "./Icon";
 import { getCategoryIconName } from "../shared";
-import type { Category, Template } from "../domain/model";
+import type { Category } from "../domain/model";
 import type { Language } from "../i18n";
 
 interface CommandPaletteProps {

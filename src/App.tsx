@@ -5,9 +5,6 @@ import {
   useRef,
   useState,
   type ChangeEvent,
-  
-  
-  
 } from "react";
 import { listen } from "@tauri-apps/api/event";
 import {
@@ -21,7 +18,6 @@ import { Dashboard } from "./screens/Dashboard";
 import { SettingsScreen } from "./screens/SettingsScreen";
 import { Editor } from "./screens/Editor/Editor";
 import { NewDocumentModal, ConnectionModal, ExportModal, SnapshotsModal, CompareModal } from "./modals/Modals";
-import { toSchemaTexDsl } from "./adapters/schematex";
 import { useDocumentContext } from "./context/DocumentContext";
 import {
   Category,
@@ -186,12 +182,12 @@ export function AppContent() {
     
     dirty, setDirty,
     
-    selection, setSelection,
+    setSelection,
     
     undo, redo, commitDocument,
     resetHistory, loading, error,
     deleteSelected, 
-    setPast, setFuture, saveState, setSaveState, autoOrganize,
+    setPast, setFuture, setSaveState,
     
   } = useDocumentContext();
 
@@ -588,15 +584,6 @@ export function AppContent() {
     setSaveState("saved");
   }, [dirty, language]);
 
-  const handleAutoOrganize = useCallback(() => {
-    autoOrganize();
-    setToast(
-      language === "es"
-        ? "Orden derivado actualizado; SchemaTex volverá a calcular el layout radial."
-        : "Derived order updated; SchemaTex will recalculate the radial layout.",
-    );
-  }, [autoOrganize, language]);
-
   const handleDeleteSelected = useCallback(async () => {
     await deleteSelected(askConfirmation, t(language, "deleteConfirm"));
   }, [deleteSelected, language]);
@@ -620,7 +607,7 @@ export function AppContent() {
         return;
       }
       if (command && event.key.toLowerCase() === "z") {
-        if (!editingText) { event.preventDefault(); event.shiftKey ? redo() : undo(); }
+        if (!editingText) { event.preventDefault(); if (event.shiftKey) redo(); else undo(); }
         return;
       }
       if (command && (event.key === "+" || event.key === "=")) {
