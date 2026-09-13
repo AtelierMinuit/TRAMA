@@ -11,6 +11,10 @@ import {
   sourceLabel, relationshipLabel, flowLabel,
   type Selection, type SaveState, getTemplateIcon, getCategoryIconName
 } from "../../shared";
+import { CommandPalette } from "../../components/CommandPalette";
+import { ContextMenu, type ContextMenuState } from "../../components/ContextMenu";
+import { ClinicalReportModal } from "../../modals/ClinicalReportModal";
+import { renderSchemaTex } from "../../adapters/schematex";
 import { t } from "../../i18n";
 import type { Language } from "../../i18n";
 import type {
@@ -91,6 +95,18 @@ export function Editor({
 
   const [showAllSystems, setShowAllSystems] = useState(false);
   const [panelTab, setPanelTab] = useState<"systems" | "templates">("systems");
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
+  const [reportOpen, setReportOpen] = useState(false);
+
+  const projectionSvg = useMemo(() => {
+    try {
+      return renderSchemaTex(document, allCategories, effectiveDark ? "dark" : "light").svg;
+    } catch {
+      return "";
+    }
+  }, [document, allCategories, effectiveDark]);
+
   const filteredSystems = document.systems.filter((s) =>
     s.label.toLowerCase().includes(search.toLowerCase()),
   );
@@ -254,7 +270,13 @@ export function Editor({
         </aside>
 
         {/* Canvas */}
-        <main className="canvas-panel">
+        <main
+          className="canvas-panel"
+          onContextMenu={(e) => {
+            e.preventDefault();
+            setContextMenu({ x: e.clientX, y: e.clientY, target: "canvas" });
+          }}
+        >
           <div
             className="canvas-stage"
             role="img"
@@ -288,6 +310,7 @@ export function Editor({
             onDuplicate={onDuplicate}
             onDelete={onDelete}
             onCompare={onCompare}
+            onOpenReport={() => setReportOpen(true)}
           />
         </aside>
 
@@ -330,12 +353,53 @@ export function Editor({
           </button>
           <IconButton icon="zoom-in" label="Acercar" onClick={() => viewportRef.current?.zoomIn()} />
           <div className="toolbar-divider" />
+          <button className="toolbar-button" onClick={() => setReportOpen(true)} title="Informe Oficial A4 / PDF">
+            <Icon name="file-text" size={15} /> {language === "es" ? "Informe" : "Report"}
+          </button>
+          <button className="toolbar-button" onClick={() => setPaletteOpen(true)} title="Paleta de Comandos (⌘K)">
+            <Icon name="file" size={15} /> ⌘K
+          </button>
+          <div className="toolbar-divider" />
           <button className="primary-button" onClick={onSave} style={{ borderRadius: 20, padding: '6px 14px', fontSize: 12 }}>
             <Icon name="save" size={15} /> Guardar
           </button>
           <IconButton icon="more" label="Opciones" onClick={onSaveAs} />
         </div>
 
+        {/* Pro Suite Modals & Popovers */}
+        <CommandPalette
+          open={paletteOpen}
+          onOpenChange={setPaletteOpen}
+          categories={allCategories}
+          language={language}
+          onAddSystem={onAddSystem}
+          onSave={onSave}
+          onUndo={onUndo}
+          onRedo={onRedo}
+          onOrganize={onOrganize}
+          onExport={onExport}
+          onReport={() => setReportOpen(true)}
+          onToggleTheme={onTheme}
+          onToggleLanguage={onLanguage}
+        />
+
+        <ContextMenu
+          menu={contextMenu}
+          onClose={() => setContextMenu(null)}
+          language={language}
+          onOrganize={onOrganize}
+          onFit={() => viewportRef.current?.fit()}
+          onOpenCommandPalette={() => setPaletteOpen(true)}
+        />
+
+        <ClinicalReportModal
+          open={reportOpen}
+          onClose={() => setReportOpen(false)}
+          document={document}
+          categories={allCategories}
+          language={language}
+          projectionSvg={projectionSvg}
+        />
       </div>
     </div>
   );
@@ -357,6 +421,7 @@ function Inspector({
   onDuplicate,
   onDelete,
   onCompare,
+  onOpenReport,
 }: {
   language: Language;
   document: Ecomap;
@@ -371,6 +436,7 @@ function Inspector({
   onDuplicate: () => void;
   onDelete: () => void;
   onCompare: () => void;
+  onOpenReport: () => void;
 }): ReactNode {
   const [activeTab, setActiveTab] = useState<"props" | "notes">("props");
 
@@ -484,15 +550,47 @@ function Inspector({
         </div>
       ) : null}
 
-      {/* Empty state */}
+      {/* Empty state — Ecological Diagnosis Balance Card */}
       {!selection ? (
         <>
-          <div className="inspector-empty">
-            <p className="muted">
-              {language === "es"
-                ? "Ningún elemento seleccionado."
-                : "No selection."}
-            </p>
+          <div className="network-balance-card">
+            <div className="network-balance-header">
+              <Icon name="mental-health" size={16} />
+              <span>{language === "es" ? "Diagnóstico Ecológico" : "Ecological Balance"}</span>
+            </div>
+            <div className="network-balance-stats">
+              <div className="stat-pill support">
+                <strong>
+                  {
+                    document.connections.filter(
+                      (c) => c.relationshipType === "strong" || c.relationshipType === "moderate"
+                    ).length
+                  }
+                </strong>
+                <small>{language === "es" ? "Apoyos" : "Supports"}</small>
+              </div>
+              <div className="stat-pill stress">
+                <strong>
+                  {
+                    document.connections.filter(
+                      (c) =>
+                        c.relationshipType === "stressful" ||
+                        c.relationshipType === "conflictual" ||
+                        c.relationshipType === "broken"
+                    ).length
+                  }
+                </strong>
+                <small>{language === "es" ? "Estresores" : "Stressors"}</small>
+              </div>
+              <div className="stat-pill systems">
+                <strong>{document.systems.length}</strong>
+                <small>{language === "es" ? "Sistemas" : "Systems"}</small>
+              </div>
+            </div>
+            <button className="generate-report-btn" onClick={onOpenReport}>
+              <Icon name="file-text" size={14} />
+              <span>{language === "es" ? "Informe Oficial A4 / PDF" : "Official Report A4 / PDF"}</span>
+            </button>
           </div>
           <ConnectionList language={language} document={document} onSelect={onSelect} />
         </>
