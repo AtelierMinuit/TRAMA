@@ -1,6 +1,6 @@
 import { type ReactNode, useEffect, useRef } from "react";
 import { Icon } from "../components/Icon";
-import { IconButton, FormField, DiffList, formatDate, STANDARD_RELATIONSHIP_OPTIONS, EXTENDED_RELATIONSHIP_OPTIONS, FLOW_OPTIONS, relationshipLabel, flowLabel } from "../shared";
+import { IconButton, FormField, DiffList, formatDate, STANDARD_RELATIONSHIP_OPTIONS, EXTENDED_RELATIONSHIP_OPTIONS, FLOW_OPTIONS, relationshipLabel, flowLabel, getTemplateIcon } from "../shared";
 import { t } from "../i18n";
 import type { Language } from "../i18n";
 import type { 
@@ -15,22 +15,6 @@ import type {
 } from "../domain/model";
 import type { ExportFormat } from "../infrastructure/exporter";
 import type { EcomapDiff } from "../domain/compare";
-
-const TEMPLATE_ICONS: Record<string, string> = {
-  "Persona": "👤",
-  "Familia": "🏠",
-  "Adolescente": "🎒",
-  "Persona mayor": "🌿",
-  "Red": "🤝",
-  "Ingreso": "📋",
-};
-
-function getTemplateIcon(name: string): string {
-  for (const [key, icon] of Object.entries(TEMPLATE_ICONS)) {
-    if (name.startsWith(key)) return icon;
-  }
-  return "📄";
-}
 
 // ─── Modal Frame ─────────────────────────────────────────────────────────────
 
@@ -151,8 +135,8 @@ export function NewDocumentModal({
         <div className="modal-template-list">
           {templates.map((template) => (
             <button key={template.id} onClick={() => onTemplate(template)}>
-              <span className="template-glyph" style={{ fontSize: "18px" }}>
-                {getTemplateIcon(template.name)}
+              <span className="template-glyph">
+                <Icon name={getTemplateIcon(template.name)} size={18} />
               </span>
               <span>
                 <strong>{template.name}</strong>

@@ -12,7 +12,7 @@ import {
   Template,
   Workspace,
 } from "../domain/model";
-import { createBuiltInTemplates, createDefaultCategories } from "../domain/defaults";
+import { createBuiltInTemplates, createDefaultCategories, documentFromTemplate } from "../domain/defaults";
 import { isTauriRuntime } from "./platform";
 
 const BROWSER_STORAGE_KEY = "trama.local.state.v1";
@@ -114,7 +114,9 @@ export class LocalRepository {
       const workspace = createWorkspace();
       const categories = createDefaultCategories(workspace.id);
       const templates = createBuiltInTemplates(workspace.id, categories);
-      const initial: RepositoryState = { workspace, categories, ecomaps: [], templates, snapshots: [] };
+      const initialDoc = documentFromTemplate(templates[0], workspace.id);
+      initialDoc.title = "Familia Torres";
+      const initial: RepositoryState = { workspace, categories, ecomaps: [initialDoc], templates, snapshots: [] };
       setBrowserState(initial);
       return initial;
     }
@@ -171,6 +173,13 @@ export class LocalRepository {
     if (templates.length === 0) {
       templates = createBuiltInTemplates(workspace.id, categories);
       for (const template of templates) await this.persistTemplate(db, template);
+    }
+
+    if (ecomaps.length === 0 && templates.length > 0) {
+      const initialDoc = documentFromTemplate(templates[0], workspace.id);
+      initialDoc.title = "Familia Torres";
+      await this.saveDocument(initialDoc);
+      ecomaps.push(initialDoc);
     }
 
     const snapshotRows = await db.select<SnapshotRow[]>(

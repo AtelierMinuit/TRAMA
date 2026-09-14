@@ -5,8 +5,9 @@ import {
   Sun, Moon, ChevronRight, Check, X, Shield, Activity, Network,
   House, Building, Building2, Briefcase, User, Heart, BookOpen, GraduationCap,
   Scale, Bus, Coffee, Wallet, TreePine, Map, MessageSquare, ZoomIn, ZoomOut,
-  Maximize, Download, Link
+  Maximize, Download, Link, Search, Languages
 } from "lucide-react";
+import { TramaLogo } from "./TramaLogo";
 
 export type IconName =
   | "file" | "users" | "folder" | "add" | "save" | "back" | "forward"
@@ -14,7 +15,8 @@ export type IconName =
   | "sun" | "moon" | "chevron" | "check" | "close" | "shield" | "trama"
   | "user" | "home" | "briefcase" | "heart" | "file-text"
   | "education" | "mental-health" | "legal" | "recreation" | "community"
-  | "finance" | "transport" | "religion" | "zoom-in" | "zoom-out" | "fit" | "download" | "link";
+  | "finance" | "transport" | "religion" | "zoom-in" | "zoom-out" | "fit" | "download" | "link"
+  | "search" | "language";
 
 interface IconProps {
   name: IconName;
@@ -23,7 +25,7 @@ interface IconProps {
 }
 
 export function Icon({ name, size = 18, className = "" }: IconProps): ReactNode {
-  const props = { size, className: `lucide-icon \${className}`, strokeWidth: 1.5 };
+  const props = { size, className: `lucide-icon ${className}`, strokeWidth: 1.5 };
 
   switch (name) {
     case "file": return <FileText {...props} />;
@@ -46,7 +48,9 @@ export function Icon({ name, size = 18, className = "" }: IconProps): ReactNode 
     case "check": return <Check {...props} />;
     case "close": return <X {...props} />;
     case "shield": return <Shield {...props} />;
-    case "trama": return <Network {...props} />;
+    case "trama": return <TramaLogo size={size} className={className} />;
+    case "search": return <Search {...props} />;
+    case "language": return <Languages {...props} />;
     case "user": return <User {...props} />;
     case "home": return <House {...props} />;
     case "briefcase": return <Briefcase {...props} />;
@@ -67,3 +71,4 @@ export function Icon({ name, size = 18, className = "" }: IconProps): ReactNode 
     default: return <FileText {...props} />;
   }
 }
+

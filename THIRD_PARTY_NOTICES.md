@@ -9,6 +9,7 @@ TRAMA es AGPL-3.0-only. El texto completo de la licencia del proyecto está en `
 - Tauri Plugin Dialog — MIT / Apache-2.0.
 - Tauri Plugin SQL — MIT / Apache-2.0.
 - React y React DOM — MIT.
+- lucide-react — ISC. Sus iconos SVG se usan como componentes vectoriales de interfaz.
 - fflate — MIT.
 - jsPDF — MIT.
 - svg2pdf.js — MIT.
