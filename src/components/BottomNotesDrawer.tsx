@@ -1,12 +1,14 @@
-import React, { useState, type ReactNode } from "react";
+import React, { useState, useEffect, type ReactNode } from "react";
 import { Icon } from "./Icon";
 import type { Language } from "../i18n";
-import type { Ecomap } from "../domain/model";
+import type { Ecomap, SystemNode } from "../domain/model";
 
 export interface BottomNotesDrawerProps {
   language: Language;
   document: Ecomap;
+  selectedSystem: SystemNode | null;
   onUpdateDocumentNotes: (notes: string) => void;
+  onUpdateSystemNotes: (notes: string) => void;
   onClose: () => void;
   open: boolean;
 }
@@ -14,19 +16,43 @@ export interface BottomNotesDrawerProps {
 export function BottomNotesDrawer({
   language,
   document,
+  selectedSystem,
   onUpdateDocumentNotes,
+  onUpdateSystemNotes,
   onClose,
   open,
 }: BottomNotesDrawerProps): ReactNode {
-  const [activeTab, setActiveTab] = useState<"notes" | "history">("notes");
-  const [localNote, setLocalNote] = useState(document.center.notes || "");
+  const [activeTab, setActiveTab] = useState<"global" | "node" | "history">("global");
+  const [localNote, setLocalNote] = useState("");
   const [savedBadge, setSavedBadge] = useState(false);
   const isSpanish = language === "es";
+
+  useEffect(() => {
+    if (selectedSystem && open) {
+      setActiveTab("node");
+    } else if (!selectedSystem && activeTab === "node") {
+      setActiveTab("global");
+    }
+  }, [selectedSystem, open]);
+
+  const isEditingNode = activeTab === "node" && selectedSystem;
+
+  useEffect(() => {
+    if (isEditingNode && selectedSystem) {
+      setLocalNote(selectedSystem.notes || "");
+    } else {
+      setLocalNote(document.center.notes || "");
+    }
+  }, [activeTab, selectedSystem, document.center.notes]);
 
   if (!open) return null;
 
   const handleSave = () => {
-    onUpdateDocumentNotes(localNote);
+    if (isEditingNode) {
+      onUpdateSystemNotes(localNote);
+    } else {
+      onUpdateDocumentNotes(localNote);
+    }
     setSavedBadge(true);
     setTimeout(() => setSavedBadge(false), 2000);
   };
@@ -49,10 +75,18 @@ export function BottomNotesDrawer({
       <div className="bottom-drawer-header">
         <div className="bottom-drawer-tabs">
           <button
-            className={`bottom-drawer-tab ${activeTab === "notes" ? "is-active" : ""}`}
-            onClick={() => setActiveTab("notes")}
+            className={`bottom-drawer-tab ${activeTab === "global" ? "is-active" : ""}`}
+            onClick={() => setActiveTab("global")}
           >
-            {isSpanish ? "Notas generales" : "General notes"}
+            {isSpanish ? "Notas generales" : "Global notes"}
+          </button>
+          <button
+            className={`bottom-drawer-tab ${activeTab === "node" ? "is-active" : ""}`}
+            onClick={() => setActiveTab("node")}
+            disabled={!selectedSystem}
+            title={!selectedSystem ? (isSpanish ? "Selecciona un nodo primero" : "Select a node first") : ""}
+          >
+            {isSpanish ? "Notas del nodo" : "Node notes"}
           </button>
           <button
             className={`bottom-drawer-tab ${activeTab === "history" ? "is-active" : ""}`}
@@ -69,7 +103,7 @@ export function BottomNotesDrawer({
 
       {/* Drawer Content */}
       <div className="bottom-drawer-body">
-        {activeTab === "notes" ? (
+        {activeTab === "global" || activeTab === "node" ? (
           <>
             <textarea
               id="bottom-notes-textarea"
@@ -77,9 +111,13 @@ export function BottomNotesDrawer({
               value={localNote}
               onChange={(e) => setLocalNote(e.target.value)}
               placeholder={
-                isSpanish
-                  ? "Añade una nota general sobre este ecomapa..."
-                  : "Add a general note about this ecomap..."
+                isEditingNode
+                  ? (isSpanish
+                      ? `Añade notas para el nodo ${selectedSystem.label || 'seleccionado'}...`
+                      : `Add notes for node ${selectedSystem.label || 'selected'}...`)
+                  : (isSpanish
+                      ? "Añade una nota general sobre este ecomapa..."
+                      : "Add a general note about this ecomap...")
               }
               rows={3}
             />

@@ -253,7 +253,9 @@ export function Editor({
           <BottomNotesDrawer
             language={language}
             document={document}
+            selectedSystem={selectedSystem}
             onUpdateDocumentNotes={(notes) => onUpdateCenter({ notes })}
+            onUpdateSystemNotes={(notes) => onUpdateSystem({ notes })}
             onClose={() => setNotesOpen(false)}
             open={notesOpen}
           />
