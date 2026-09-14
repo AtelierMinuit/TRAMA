@@ -10,6 +10,7 @@
 | TypeScript | 6.0.3 | Apache-2.0 |
 | Vite | 8.3.0 | MIT |
 | SchemaTex | 1.0.14 | AGPL-3.0-only |
+| lucide-react | 1.45.0 | ISC |
 | Tauri Plugin Dialog | 2.7.3 | MIT / Apache-2.0 |
 | Tauri Plugin SQL | 2.4.1 | MIT / Apache-2.0 |
 | fflate | 0.8.3 | MIT |

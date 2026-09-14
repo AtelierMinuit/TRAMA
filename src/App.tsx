@@ -17,9 +17,11 @@ import {
 } from "@tauri-apps/plugin-dialog";
 import "./App.css";
 import { Icon } from "./components/Icon";
+import { Sidebar } from "./components/Sidebar";
 import { Dashboard } from "./screens/Dashboard";
 import { SettingsScreen } from "./screens/SettingsScreen";
 import { Editor } from "./screens/Editor/Editor";
+import type { ViewportController } from "schematex/interactive";
 import { NewDocumentModal, ConnectionModal, ExportModal, SnapshotsModal, CompareModal } from "./modals/Modals";
 import { toSchemaTexDsl } from "./adapters/schematex";
 import { useDocumentContext } from "./context/DocumentContext";
@@ -214,7 +216,7 @@ export function AppContent() {
   const [compareA, setCompareA] = useState("");
   const [compareB, setCompareB] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const viewportRef = useRef<any>(null);
+  const viewportRef = useRef<ViewportController | null>(null);
   const modalTriggerRef = useRef<HTMLElement | null>(null);
 
   const effectiveDark = themeMode === "dark" || (themeMode === "system" && systemDark);
@@ -700,50 +702,102 @@ export function AppContent() {
         onChange={onFileInputChange}
       />
 
-      {screen === "dashboard" && repoState ? (
-        <Dashboard
+      {/* 1. Universal Desktop Left Sidebar */}
+      {repoState && (
+        <Sidebar
           language={language}
-          themeMode={themeMode}
-          repoState={repoState}
-          onNew={() => { setNewTitle("Ecomapa sin título"); setNewRepresentation("single_person"); setModal("new"); }}
-          onOpen={() => void handleOpen()}
-          onOpenDocument={openDocument}
-          onTemplate={(template) => createDocument(template)}
-          onSettings={() => setScreen("settings")}
-          onLanguage={() => setLanguage((l) => l === "es" ? "en" : "es")}
-          onTheme={() => setThemeMode((m) => m === "system" ? "dark" : m === "dark" ? "light" : "system")}
+          currentScreen={screen}
+          activeDocId={document?.id}
+          recentDocs={repoState.ecomaps}
+          onNavigate={(nextScreen) => {
+            if (nextScreen === "editor") {
+              if (!document && repoState.ecomaps.length > 0) {
+                openDocument(repoState.ecomaps[0]);
+              } else if (document) {
+                setScreen("editor");
+              } else if (repoState.templates.length > 0) {
+                createDocument(repoState.templates[0]);
+              }
+            } else {
+              setScreen(nextScreen);
+            }
+          }}
+          onSelectDoc={(doc) => openDocument(doc)}
+          onOpenTemplates={() => {
+            setNewTitle("Ecomapa sin título");
+            setNewRepresentation("single_person");
+            setModal("new");
+          }}
+          onOpenSnapshots={() => {
+            if (document) {
+              modalTriggerRef.current = globalThis.document.activeElement as HTMLElement;
+              setModal("snapshots");
+            } else {
+              setToast(language === "es" ? "Abre un ecomapa para ver sus snapshots." : "Open an ecomap to view snapshots.");
+            }
+          }}
+          onOpenExport={() => {
+            if (document) {
+              modalTriggerRef.current = globalThis.document.activeElement as HTMLElement;
+              setModal("export");
+            } else {
+              setToast(language === "es" ? "Abre un ecomapa para exportar." : "Open an ecomap to export.");
+            }
+          }}
+          onSearch={() => {
+            const down = new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true });
+            window.dispatchEvent(down);
+          }}
         />
-      ) : null}
+      )}
 
-      {screen === "settings" && repoState ? (
-        <SettingsScreen
-          language={language}
-          themeMode={themeMode}
-          categories={repoState.categories}
-          setThemeMode={setThemeMode}
-          onSaveCategories={saveCategories}
-          onBack={() => setScreen(document ? "editor" : "dashboard")}
-          onLanguage={() => setLanguage((l) => l === "es" ? "en" : "es")}
-        />
-      ) : null}
+      {/* 2. Main Workspace Viewport */}
+      <div className="app-workspace-viewport">
+        {screen === "dashboard" && repoState ? (
+          <Dashboard
+            language={language}
+            themeMode={themeMode}
+            repoState={repoState}
+            onNew={() => { setNewTitle("Ecomapa sin título"); setNewRepresentation("single_person"); setModal("new"); }}
+            onOpen={() => void handleOpen()}
+            onOpenDocument={openDocument}
+            onTemplate={(template) => createDocument(template)}
+            onSettings={() => setScreen("settings")}
+            onLanguage={() => setLanguage((l) => l === "es" ? "en" : "es")}
+            onTheme={() => setThemeMode((m) => m === "system" ? "dark" : m === "dark" ? "light" : "system")}
+          />
+        ) : null}
 
-      {screen === "editor" && document && repoState ? (
-        <Editor
-          language={language}
-          effectiveDark={effectiveDark}
-          onConnect={openConnectionModal}
-          onSave={() => void saveCurrent()}
-          onSaveAs={() => void savePortableAs()}
-          onExport={() => { modalTriggerRef.current = globalThis.document.activeElement as HTMLElement; setModal("export"); }}
-          onClose={() => void closeEditor()}
-          onSnapshots={() => { modalTriggerRef.current = globalThis.document.activeElement as HTMLElement; setModal("snapshots"); }}
-          onCompare={() => { modalTriggerRef.current = globalThis.document.activeElement as HTMLElement; setModal("compare"); }}
-          viewportRef={viewportRef}
-          onSettings={() => setScreen("settings")}
-          onLanguage={() => setLanguage((l) => l === "es" ? "en" : "es")}
-          onTheme={() => setThemeMode((m) => m === "system" ? "dark" : m === "dark" ? "light" : "system")}
-        />
-      ) : null}
+        {screen === "settings" && repoState ? (
+          <SettingsScreen
+            language={language}
+            themeMode={themeMode}
+            categories={repoState.categories}
+            setThemeMode={setThemeMode}
+            onSaveCategories={saveCategories}
+            onBack={() => setScreen(document ? "editor" : "dashboard")}
+            onLanguage={() => setLanguage((l) => l === "es" ? "en" : "es")}
+          />
+        ) : null}
+
+        {screen === "editor" && document && repoState ? (
+          <Editor
+            language={language}
+            effectiveDark={effectiveDark}
+            onConnect={openConnectionModal}
+            onSave={() => void saveCurrent()}
+            onSaveAs={() => void savePortableAs()}
+            onExport={() => { modalTriggerRef.current = globalThis.document.activeElement as HTMLElement; setModal("export"); }}
+            onClose={() => void closeEditor()}
+            onSnapshots={() => { modalTriggerRef.current = globalThis.document.activeElement as HTMLElement; setModal("snapshots"); }}
+            onCompare={() => { modalTriggerRef.current = globalThis.document.activeElement as HTMLElement; setModal("compare"); }}
+            viewportRef={viewportRef}
+            onSettings={() => setScreen("settings")}
+            onLanguage={() => setLanguage((l) => l === "es" ? "en" : "es")}
+            onTheme={() => setThemeMode((m) => m === "system" ? "dark" : m === "dark" ? "light" : "system")}
+          />
+        ) : null}
+      </div>
 
       {toast ? (
         (() => {

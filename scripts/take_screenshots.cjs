@@ -33,6 +33,16 @@ const server = app.listen(3033, async () => {
   await page.screenshot({ path: path.join(__dirname, '../docs/assets/screenshots/editor.png') });
   console.log('2. Editor light screenshot taken');
 
+  // 2b. Open Bottom Notes Drawer
+  await page.evaluate(() => {
+    const btns = Array.from(document.querySelectorAll('.toolbar-tool-btn'));
+    const noteBtn = btns.find(b => b.innerText.includes('Nota'));
+    if (noteBtn) noteBtn.click();
+  });
+  await wait(800);
+  await page.screenshot({ path: path.join(__dirname, '../docs/assets/screenshots/notes-drawer.png') });
+  console.log('2b. Bottom notes drawer screenshot taken');
+
   // 3. Switch to Dark Mode and enter Editor Dark
   await page.evaluate(() => { localStorage.setItem('trama.theme', 'dark'); });
   await page.reload();

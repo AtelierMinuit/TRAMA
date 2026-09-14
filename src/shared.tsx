@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 import { Icon, type IconName } from "./components/Icon";
 import type { StandardRelationshipType, ExtendedRelationshipType, SourceType, VerificationStatus, EnergyFlow, RelationshipType } from "./domain/model";
-import { t, flowMessageKey, relationMessageKey, sourceMessageKey } from "./i18n";
+import { t, flowMessageKey, relationMessageKey, sourceMessageKey, type Language } from "./i18n";
 
 export type Screen = "dashboard" | "editor" | "settings";
 export type ThemeMode = "system" | "light" | "dark" | "monochrome";
@@ -81,7 +81,7 @@ export function DiffList({
   items,
   render,
 }: {
-  language: any;
+  language: Language;
   title: string;
   items: string[];
   render?: (value: string) => string;
@@ -96,7 +96,7 @@ export function DiffList({
   );
 }
 
-export function formatDate(iso: string, language: any): string {
+export function formatDate(iso: string, language: Language): string {
   try {
     return new Intl.DateTimeFormat(
       language === "es" ? "es-CL" : "en-US",
@@ -107,7 +107,7 @@ export function formatDate(iso: string, language: any): string {
   }
 }
 
-export function formatDateShort(iso: string, language: any): string {
+export function formatDateShort(iso: string, language: Language): string {
   try {
     return new Intl.DateTimeFormat(
       language === "es" ? "es-CL" : "en-US",
@@ -118,13 +118,13 @@ export function formatDateShort(iso: string, language: any): string {
   }
 }
 
-export function sourceLabel(language: any, source: SourceType | undefined): string {
+export function sourceLabel(language: Language, source: SourceType | undefined): string {
   return t(language, sourceMessageKey(source ?? "unknown"));
 }
-export function flowLabel(language: any, flow: EnergyFlow): string {
+export function flowLabel(language: Language, flow: EnergyFlow): string {
   return t(language, flowMessageKey(flow));
 }
-export function relationshipLabel(language: any, relation: RelationshipType): string {
+export function relationshipLabel(language: Language, relation: RelationshipType): string {
   return t(language, relationMessageKey(relation));
 }
 
@@ -182,3 +182,14 @@ export function getCategoryIconName(keyOrCategory: string): IconName {
       return "file";
   }
 }
+
+export function statusLabel(language: Language, state: SaveState): string {
+  return t(
+    language,
+    state === "saving" ? "saving"
+      : state === "unsaved" ? "unsaved"
+      : state === "error" ? "saveError"
+      : "saved",
+  );
+}
+

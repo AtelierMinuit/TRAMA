@@ -1,6 +1,7 @@
 import {
   Category,
   CenterRepresentation,
+  Ecomap,
   EcomapState,
   Template,
   StandardRelationshipType,
@@ -68,10 +69,14 @@ function templateState(
 ): EcomapState {
   const document = createEmptyDocument(workspaceId, "Plantilla", representation);
   document.center.label = centerLabel;
+  if (centerLabel === "Carlos") {
+    document.center.description = "Adolescente, 15 años. Vive con madre y hermana. Asiste a liceo. Interés en deporte.";
+  }
   document.systems = systems.map((system, index) => {
     const category = categories.find((item) => item.key === system.categoryKey) ?? categories[0];
     if (!category) throw new Error("No hay categorías disponibles para crear la plantilla.");
     const node = createSystemNode(document.id, category.id, system.label, index);
+    node.description = system.note ?? "";
     node.notes = system.note ?? "";
     return node;
   });
@@ -97,6 +102,22 @@ export function createBuiltInTemplates(workspaceId: string, categories: Category
     representation: CenterRepresentation;
     systems: Parameters<typeof templateState>[3];
   }> = [
+    {
+      name: "Familia Torres",
+      description: "Ecomapa sociofamiliar completo con red de apoyo, estresores y recursos comunitarios.",
+      centerLabel: "Carlos",
+      representation: "single_person",
+      systems: [
+        { label: "Madre (Ana)", categoryKey: "family", relationship: "strong", flow: "mutual", note: "Apoyo emocional y cuidado constante" },
+        { label: "Padre (Luis)", categoryKey: "family", relationship: "conflictual", flow: "away_from_center", note: "Relación distante y conflictiva" },
+        { label: "Hermana (Sofia)", categoryKey: "family", relationship: "weak", flow: "none", note: "Vínculo débil, poca comunicación" },
+        { label: "Escuela (Liceo Central)", categoryKey: "education", relationship: "strong", flow: "toward_center", note: "Apoyo académico y orientación" },
+        { label: "Salud (CESFAM)", categoryKey: "health", relationship: "strong", flow: "toward_center", note: "Acompañamiento en programa adolescente" },
+        { label: "Amigos (Red social)", categoryKey: "friends_peers", relationship: "moderate", flow: "none", note: "Vínculo ocasional de pares" },
+        { label: "Comunidad (Barrio)", categoryKey: "community", relationship: "moderate", flow: "away_from_center", note: "Participación en actividades vecinales" },
+        { label: "Deporte (Club local)", categoryKey: "recreation", relationship: "strong", flow: "mutual", note: "Espacio protector y recreativo" },
+      ],
+    },
     {
       name: "Persona individual",
       description: "Un punto de partida sobrio para mapear apoyos y tensiones personales.",
@@ -180,3 +201,47 @@ export function createBuiltInTemplates(workspaceId: string, categories: Category
     ),
   }));
 }
+
+export function documentFromTemplate(template: Template, workspaceId: string): Ecomap {
+  const document = createEmptyDocument(workspaceId, template.name, template.state.center.representation);
+  const centerId = document.center.id;
+  const systemIdMap = new Map<string, string>();
+  document.center = {
+    ...structuredClone(template.state.center),
+    id: centerId,
+    ecomapId: document.id,
+    createdAt: document.createdAt,
+    updatedAt: document.updatedAt,
+  };
+  document.systems = template.state.systems.map((source, index) => {
+    const targetId = createId();
+    systemIdMap.set(source.id, targetId);
+    return {
+      ...structuredClone(source),
+      id: targetId,
+      ecomapId: document.id,
+      orderIndex: index,
+      createdAt: document.createdAt,
+      updatedAt: document.updatedAt,
+    };
+  });
+  document.connections = template.state.connections.map((source) => {
+    const sourceId = source.sourceNodeId === template.state.center.id
+      ? centerId
+      : systemIdMap.get(source.sourceNodeId) ?? centerId;
+    const targetId = source.targetNodeId === template.state.center.id
+      ? centerId
+      : systemIdMap.get(source.targetNodeId) ?? centerId;
+    return {
+      ...structuredClone(source),
+      id: createId(),
+      ecomapId: document.id,
+      sourceNodeId: sourceId,
+      targetNodeId: targetId,
+      createdAt: document.createdAt,
+      updatedAt: document.updatedAt,
+    };
+  });
+  return document;
+}
+
