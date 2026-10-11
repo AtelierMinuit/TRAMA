@@ -22,7 +22,7 @@
     "lucide-react": "^1.45.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "schematex": "1.0.14",
+    "schematex": "1.1.2",
     "svg2pdf.js": "2.8.1"
   },
   "devDependencies": {
