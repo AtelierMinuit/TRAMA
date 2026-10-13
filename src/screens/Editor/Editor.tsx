@@ -232,7 +232,7 @@ export function Editor({
                 −
               </button>
               <span
-                className="zoom-pill-value zoom-pill-label"
+                className="zoom-pill-value"
                 onClick={() => viewportRef.current?.fit()}
                 title="Ajustar a la pantalla"
               >

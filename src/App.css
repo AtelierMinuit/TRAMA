@@ -802,7 +802,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
   flex-shrink: 0;
 }
 .system-list-item strong { font-size: 12px; font-weight: 600; display: block; }
-.system-list-item small { font-size: 10px; color: var(--muted); }
+.system-list-item small { font-size: 11px; color: var(--muted); }
 
 .panel-footer {
   padding: 10px 14px;
@@ -1243,7 +1243,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
   outline: none;
 }
 .cmdk-kbd {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   padding: 3px 6px;
   background: var(--surface-subtle);
@@ -1293,7 +1293,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
 }
 .cmdk-badge {
   margin-left: auto;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 800;
   padding: 2px 6px;
   background: var(--accent);
@@ -1326,7 +1326,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
   animation: fadeIn 0.12s ease;
 }
 .context-menu-header {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--subtle);
   text-transform: uppercase;
@@ -1334,7 +1334,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
   padding: 6px 10px 2px;
 }
 .context-menu-label {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--muted);
   padding: 4px 10px 2px;
@@ -1412,7 +1412,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
   border: 1px solid var(--line);
 }
 .stat-pill strong { font-size: 18px; font-weight: 800; }
-.stat-pill small { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.stat-pill small { font-size: 11px; color: var(--muted); margin-top: 2px; }
 .stat-pill.support strong { color: var(--success); }
 .stat-pill.stress strong { color: var(--danger); }
 .stat-pill.systems strong { color: var(--accent); }
@@ -1541,7 +1541,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
   gap: 20px;
 }
 .report-label {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   color: #64748b;
   text-transform: uppercase;
@@ -1586,7 +1586,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
 .metric-box.stress .metric-number { color: #ef4444; }
 .metric-box.density .metric-number { color: #4f46e5; }
 .metric-label { font-size: 12px; font-weight: 700; color: #1e293b; margin-top: 4px; }
-.metric-sub { font-size: 10px; color: #64748b; margin-top: 2px; }
+.metric-sub { font-size: 11px; color: #64748b; margin-top: 2px; }
 
 .report-diagram-wrapper {
   width: 100%;
@@ -1622,7 +1622,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
   border-bottom: 1px solid #f1f5f9;
 }
 .tie-badge {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   padding: 2px 8px;
   border-radius: 12px;
@@ -1872,7 +1872,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
 }
 
 .sidebar-kbd {
-  font-size: 10.5px;
+  font-size: 11px;
   font-family: var(--font-mono);
   background: var(--surface);
   border: 1px solid var(--line);
@@ -2006,7 +2006,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
 }
 
 .sidebar-recent-time {
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--muted);
   margin-top: 1px;
 }
@@ -2055,7 +2055,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
   flex-direction: column;
   gap: 1px;
   padding: 0 4px;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--subtle);
   line-height: 1.3;
 }
@@ -2905,7 +2905,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
 }
 
 .diagnosis-stat small {
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--muted);
 }
 
@@ -3048,5 +3048,5 @@ button:disabled { cursor: not-allowed; opacity: .4; }
 }
 
 .modal-template-list strong { font-size: 12px; }
-.modal-template-list small { color: var(--muted); font-size: 10px; line-height: 1.35; }
+.modal-template-list small { color: var(--muted); font-size: 11px; line-height: 1.4; }
 .modal-template-list > button > svg { color: var(--muted); }
