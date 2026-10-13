@@ -23,7 +23,8 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "schematex": "1.0.14",
-    "svg2pdf.js": "2.8.1"
+    "svg2pdf.js": "2.8.1",
+    "dompurify": "3.4.15"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
