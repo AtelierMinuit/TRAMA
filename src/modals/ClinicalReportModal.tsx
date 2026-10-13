@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import DOMPurify from "dompurify";
 import { Icon } from "../components/Icon";
 import { formatDate } from "../shared";
 import type { Ecomap, Category } from "../domain/model";
@@ -27,6 +28,7 @@ export function ClinicalReportModal({
     "Se observa una red con predominancia de vínculos de apoyo en el área comunitaria, requiriendo fortalecimiento en las áreas de salud y soporte formal."
   );
 
+  const safeSvg = DOMPurify.sanitize(projectionSvg, { USE_PROFILES: { svg: true, svgFilters: true } });
   if (!open) return null;
 
   // Compute Ecological Balance Metrics
@@ -138,7 +140,7 @@ export function ClinicalReportModal({
             <h3 className="report-section-title">2. Ecomapa Relacional</h3>
             <div
               className="report-diagram-wrapper"
-              dangerouslySetInnerHTML={{ __html: projectionSvg }}
+              dangerouslySetInnerHTML={{ __html: safeSvg }}
             />
           </section>
 

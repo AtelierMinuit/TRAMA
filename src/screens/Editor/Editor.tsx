@@ -107,6 +107,7 @@ export function Editor({
   const [reportOpen, setReportOpen] = useState(false);
   const [notesOpen, setNotesOpen] = useState(false);
   const [categoryPickerOpen, setCategoryPickerOpen] = useState(false);
+  const [zoomPercent, setZoomPercent] = useState(100);
 
   // SVG for clinical A4 report (always rendered with light theme for paper printing)
   const reportSvg = useMemo(() => {
@@ -214,6 +215,7 @@ export function Editor({
                   pinch: true,
                   wheelRequiresModifier: false,
                 }}
+                onViewportChange={(state) => setZoomPercent(Math.round(state.scale * 100))}
                 viewportRef={viewportRef}
                 className="schematex-host"
                 onError={() => undefined}
@@ -229,8 +231,12 @@ export function Editor({
               >
                 −
               </button>
-              <span className="zoom-pill-label" onClick={() => viewportRef.current?.fit()}>
-                100%
+              <span
+                className="zoom-pill-value"
+                onClick={() => viewportRef.current?.fit()}
+                title="Ajustar a la pantalla"
+              >
+                {zoomPercent}%
               </span>
               <button
                 className="zoom-pill-btn"
