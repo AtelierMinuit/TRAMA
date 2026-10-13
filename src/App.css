@@ -78,6 +78,21 @@
   --canvas-grid-dot: #334155;
 }
 
+.theme-monochrome {
+  --accent: #2c3330;
+  --accent-strong: #151918;
+  --accent-soft: #e1e3df;
+  --accent-glow: rgba(44, 51, 48, 0.25);
+  --warm: #505652;
+}
+
+.theme-dark.theme-monochrome {
+  --accent: #d2d8d2;
+  --accent-strong: #f0f3ee;
+  --accent-soft: #3a403d;
+  --accent-glow: rgba(210, 216, 210, 0.25);
+}
+
 /* Base resets */
 * { box-sizing: border-box; }
 html, body, #root {
